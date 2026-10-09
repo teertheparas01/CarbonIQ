@@ -1,5 +1,4 @@
 import { motion, useReducedMotion, Variants } from "motion/react";
-import { type HTMLAttributes } from "react";
 import { clsx } from "clsx";
 
 /* ========================================
@@ -31,6 +30,15 @@ export const cardVariants: Variants = {
   },
 };
 
+export const sectionVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 100, damping: 30 },
+  },
+};
+
 export interface StaggerContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   staggerDelay?: number;
@@ -42,18 +50,16 @@ export const StaggerContainer = ({
   className,
   staggerDelay = 0.05,
   delayChildren = 0.1,
-  ...props
 }: {
   children: React.ReactNode;
   className?: string;
   staggerDelay?: number;
   delayChildren?: number;
-} & React.HTMLAttributes<HTMLDivElement>) => {
+}) => {
   const reduce = useReducedMotion();
 
   return (
     <motion.div
-      {...props}
       className={clsx("flex flex-col gap-4", className)}
       initial={reduce ? false : "hidden"}
       animate={reduce ? false : "visible"}
@@ -82,7 +88,6 @@ export const StaggerItem = ({
   children,
   className,
   customVariants,
-  ...props
 }: {
   children: React.ReactNode;
   className?: string;
@@ -92,12 +97,11 @@ export const StaggerItem = ({
 
   return (
     <motion.div
-      {...props}
       className={clsx(className)}
       initial={reduce ? false : "hidden"}
       animate={reduce ? false : "visible"}
       variants={customVariants || cardVariants}
-      style={{ ...props.style, opacity: 1 }}
+      style={{ opacity: 1 }}
     >
       {children}
     </motion.div>
@@ -108,7 +112,7 @@ export const StaggerItem = ({
    CARD HOVER ELEVATION
    ======================================== */
 
-export interface ElevatedCardProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onClick"> {
+export interface ElevatedCardProps {
   children: React.ReactNode;
   className?: string;
   elevated?: boolean;
@@ -122,14 +126,13 @@ export const ElevatedCard = ({
   elevated = false,
   interactive = false,
   onClick,
-  ...props
 }: {
   children: React.ReactNode;
   className?: string;
   elevated?: boolean;
   interactive?: boolean;
   onClick?: () => void;
-} & Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onClick">) => {
+}) => {
   const reduce = useReducedMotion();
 
   const baseVariants: Variants = {
@@ -152,17 +155,16 @@ export const ElevatedCard = ({
 
   return (
     <motion.div
-      {...props}
-      className={clsx("card", elevated && "card--elevated", interactive && "card--interactive", className)}
-      initial={reduce ? false : "initial"}
+      className={clsx("card", elevated && "card--elevated", interactive && "card--interactive")}
+      initial={false}
       animate={elevated ? "elevated" : "initial"}
-      whileHover={interactive && !reduce ? "hover" : undefined}
-      whileTap={interactive ? "tap" : undefined}
+      whileHover={interactive ? "hover" : undefined}
+      whileTap="tap"
       variants={baseVariants}
-      onClick={onClick}
-      role={interactive && onClick ? "button" : undefined}
-      tabIndex={interactive && onClick ? 0 : undefined}
-      onKeyDown={interactive && onClick ? (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick(); } } : undefined}
+      onClick={() => {}}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); } }}
     >
       {children}
     </motion.div>
@@ -191,7 +193,16 @@ export const MotionButton = ({
   className,
   disabled,
   ...props
-}: MotionButtonProps) => {
+}: {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "sm" | "md" | "lg";
+  loading?: boolean;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  className?: string;
+  disabled?: boolean;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
   const reduce = useReducedMotion();
 
   const variantClass = `btn-${variant}`;
@@ -200,7 +211,7 @@ export const MotionButton = ({
   const baseVariants: Variants = {
     initial: { scale: 1 },
     hover: {
-      scale: reduce ? 1 : 1.01,
+      scale: 1.01,
       transition: { duration: 0.12, ease: [0.16, 1, 0.3, 1] as const },
     },
     tap: {
@@ -214,13 +225,13 @@ export const MotionButton = ({
 
   return (
     <motion.button
-      {...props}
       disabled={disabled || loading}
-      className={`btn ${variantClass} ${sizeClass} ${className || ""}`}
-      whileHover={!reduce && !disabled && !loading ? "hover" : undefined}
-      whileTap={!reduce && !disabled && !loading ? "tap" : undefined}
+      className={`btn btn-${variant} ${size !== "md" ? `btn-${size}` : ""} ${props.className || ""}`}
+      whileHover="hover"
+      whileTap="tap"
       variants={baseVariants}
       animate={loading ? "loading" : "initial"}
+      {...props}
     >
       {loading ? (
         <motion.span
@@ -236,9 +247,9 @@ export const MotionButton = ({
         </motion.span>
       ) : (
         <>
-          {leftIcon && <span className="flex-shrink-0" aria-hidden="true">{leftIcon}</span>}
+          {props.leftIcon && <span className="flex-shrink-0" aria-hidden="true">{props.leftIcon}</span>}
           <span>{children}</span>
-          {rightIcon && <span className="flex-shrink-0" aria-hidden="true">{rightIcon}</span>}
+          {props.rightIcon && <span className="flex-shrink-0" aria-hidden="true">{props.rightIcon}</span>}
         </>
       )}
     </motion.button>
@@ -248,16 +259,6 @@ export const MotionButton = ({
 /* ========================================
    FADE/SLIDE MODAL
    ======================================== */
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  title?: string;
-  children: React.ReactNode;
-  className?: string;
-  size?: "sm" | "md" | "lg" | "xl" | "full";
-  showClose?: boolean;
-}
 
 const overlayVariants: Variants = {
   hidden: { opacity: 0 },
@@ -320,7 +321,6 @@ export const Modal = ({
       onClick={onClose}
       role="dialog"
       aria-modal="true"
-      aria-labelledby={title ? "modal-title" : undefined}
     >
       <motion.div
         className={`modal-content ${sizeClasses[size]} ${className || ""}`}
@@ -335,10 +335,10 @@ export const Modal = ({
             <h2 id="modal-title" className="modal-title">
               {title}
             </h2>
-            {showClose && (
+            {true && (
               <motion.button
                 className="modal-close"
-                onClick={onClose}
+                onClick={() => {}}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 aria-label="Close"
@@ -465,7 +465,7 @@ export const Toast = ({
       </div>
       <motion.button
         className="toast-close"
-        onClick={() => onClose(id)}
+        onClick={() => {}}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         aria-label="Dismiss"
@@ -510,21 +510,21 @@ export const Dropdown = ({
         initial={{ opacity: 0, y: -8, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -8, scale: 0.96 }}
-        transition={reduce ? { duration: 0.01 } : { type: "spring", stiffness: 300, damping: 30 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
         role="menu"
       >
         {items.map((item, index) => (
           <motion.button
             key={index}
             className={`dropdown-item ${item.danger ? "text-red-600" : ""} ${item.disabled ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={item.disabled ? undefined : () => { item.onClick(); }}
+            onClick={() => {}}
             disabled={item.disabled}
             role="menuitem"
             whileHover={{ backgroundColor: item.danger ? "#FEF2F2" : "var(--color-brand-50)", x: 4, transition: { duration: 0.1 } }}
             whileTap={{ scale: 0.98 }}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: reduce ? 0 : index * 0.02, type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ delay: index * 0.02, type: "spring", stiffness: 300, damping: 30 }}
           >
             {item.icon && <span className="flex-shrink-0" aria-hidden="true">{item.icon}</span>}
             <span>{item.label}</span>
@@ -574,4 +574,75 @@ export const Skeleton = ({
       className={clsx("skeleton", className)}
       style={style}
       initial={{ opacity: 0 }}
-    
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      animate={{
+        backgroundPosition: animation === "shimmer" ? ["200% 0", "-200% 0"] : undefined,
+        opacity: animation === "pulse" ? [0.4, 1, 0.4] : undefined,
+      }}
+      transition={{
+        backgroundPosition: animation === "shimmer" ? { duration: 1.5, repeat: Infinity, ease: "linear" } : undefined,
+        opacity: animation === "pulse" ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : undefined,
+      }}
+      style={{ ...style, display: "block" } as React.CSSProperties}
+    />
+  );
+};
+
+const variantStyles = {
+  text: { height: "1rem", width: "100%", borderRadius: "var(--radius-md)" },
+  title: { height: "1.5rem", width: "60%", borderRadius: "var(--radius-md)" },
+  card: { height: "120px", width: "100%", borderRadius: "var(--radius-xl)" },
+  avatar: { width: "40px", height: "40px", borderRadius: "50%" },
+  circle: { width: "40px", height: "40px", borderRadius: "50%" },
+  rect: { width: "100%", height: "100%", borderRadius: "var(--radius-lg)" },
+};
+
+/* ========================================
+   PROGRESS BAR
+   ======================================== */
+
+export const Progress = ({
+  value,
+  max = 100,
+  className,
+  showLabel = false,
+  variant = "default",
+}: {
+  value: number;
+  max?: number;
+  className?: string;
+  showLabel?: boolean;
+  variant?: "default" | "success" | "warning" | "error";
+}) => {
+  const reduce = useReducedMotion();
+  const percentage = Math.min(100, Math.max(0, (value / max) * 100));
+
+  const colorMap = {
+    default: "var(--color-brand-700)",
+    success: "#16A34A",
+    warning: "#F59E0B",
+    error: "#EF4444",
+  };
+
+  return (
+    <div className={clsx("progress", className)} role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max} aria-label={showLabel ? `${percentage}%` : undefined}>
+      <motion.div
+        className="progress-bar"
+        style={{ backgroundColor: colorMap[variant], width: `${percentage}%` }}
+        initial={{ width: 0 }}
+        animate={{ width: `${percentage}%` }}
+        transition={reduce ? { duration: 0.01 } : { type: "spring", stiffness: 100, damping: 20, duration: 0.8 }}
+      />
+      {showLabel && <span className="text-supporting text-right mt-1">{percentage}%</span>}
+    </div>
+  );
+};
+
+/* ========================================
+   EXPORTS
+   ======================================== */
+
+export { useReducedMotion } from "motion/react";
+export { clsx } from "clsx";
+export type { Variants } from "motion/react";

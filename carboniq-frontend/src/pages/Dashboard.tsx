@@ -1,6 +1,6 @@
 import { Badge } from '../components/ui';
 import { motion, useReducedMotion } from "motion/react";
-import { ElevatedCard } from '../lib/animations';
+import { ElevatedCard, containerVariants, cardVariants, sectionVariants } from '../lib/animations';
 
 const DOMAIN_CARDS = [
   {
@@ -62,54 +62,6 @@ const DOMAIN_CARDS = [
 export function Dashboard() {
   const reduce = useReducedMotion();
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: reduce ? 0 : 0.06,
-        delayChildren: reduce ? 0 : 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 30,
-        duration: 0.5,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring" as const,
-        stiffness: 100,
-        damping: 30,
-        duration: 0.5,
-      },
-    },
-  };
-
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 16 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { type: "spring" as const, stiffness: 100, damping: 30 },
-    },
-  };
-
   return (
     <motion.div
       className="space-y-8"
@@ -168,7 +120,7 @@ export function Dashboard() {
                 visible: {
                   opacity: 1,
                   y: 0,
-                  transition: { type: "spring" as const, stiffness: 100, damping: 30 },
+                  transition: { type: "spring", stiffness: 100, damping: 30 },
                 },
               }}
             >
@@ -234,7 +186,7 @@ export function Dashboard() {
                 visible: {
                   opacity: 1,
                   y: 0,
-                  transition: { type: "spring" as const, stiffness: 100, damping: 30 },
+                  transition: { type: "spring", stiffness: 100, damping: 30 },
                 },
               }}
             >
