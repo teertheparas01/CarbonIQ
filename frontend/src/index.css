@@ -1126,7 +1126,16 @@
      STAT CARD / KPI
      ======================================== */
   .stat-card {
-    @apply card card-padded;
+    background-color: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid color-mix(in srgb, var(--color-brand-100) 70%, transparent);
+    transition:
+      box-shadow var(--transition-normal),
+      transform var(--transition-normal),
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+    padding: var(--space-6);
   }
 
   .stat-value {
