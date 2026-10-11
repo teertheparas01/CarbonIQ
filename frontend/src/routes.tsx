@@ -10,6 +10,7 @@ import {
   Forecast,
   TodoNotTodo,
   Settings,
+  Landing,
 } from './pages';
 
 export const router = createBrowserRouter([
@@ -17,7 +18,8 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <Dashboard /> },
+      { index: true, element: <Landing /> },
+      { path: 'dashboard', element: <Dashboard /> },
       { path: 'electricity', element: <Electricity /> },
       { path: 'lpg', element: <LPG /> },
       { path: 'water', element: <Water /> },
