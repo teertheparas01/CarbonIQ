@@ -1,5 +1,5 @@
 import { Outlet, useOutletContext } from 'react-router-dom';
-import { Sidebar } from './Sidebar';
+import { TopNav } from './TopNav';
 import { Header } from './Header';
 import { PageContainer } from './PageContainer';
 
@@ -28,9 +28,9 @@ function PageHeader() {
 
 export function Layout() {
   return (
-    <div className="min-h-screen bg-brand-50 flex">
-      <Sidebar />
-      <div className="flex-1 flex flex-col ml-64 min-w-0">
+    <div className="min-h-screen bg-brand-50 flex flex-col">
+      <TopNav />
+      <div className="flex-1 flex flex-col pt-20 min-w-0">
         <Outlet
           context={(ctx: { location: { pathname: string } }) => ({
             location: { pathname: ctx.location.pathname },

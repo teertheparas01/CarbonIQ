@@ -2,3 +2,4 @@ export * from './Sidebar';
 export * from './Header';
 export * from './PageContainer';
 export * from './Layout';
+export * from './TopNav';
