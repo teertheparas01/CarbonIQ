@@ -340,6 +340,117 @@ export function LPG() {
         </Card>
       </div>
 
+      {/* Interactive Induction Switch & Thermal Savings Simulator */}
+      <Card className="border-amber-200/80 bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 shadow-sm overflow-hidden">
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[11px] font-semibold mb-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-orange-600 animate-pulse" />
+                Thermal Transition Pathway
+              </div>
+              <h3 className="text-base font-semibold text-brand-950">LPG to Clean Induction Cooking Calculator</h3>
+            </div>
+            <Badge variant="warning">Clean Cooking Transition</Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-2 space-y-6">
+          <p className="text-xs text-brand-600 leading-relaxed max-w-2xl">
+            Compare monthly cooking energy expenditure and carbon release between subsidized domestic LPG cylinders (~60% efficiency) and precision electromagnetic induction cooking (~84% thermal transfer).
+          </p>
+
+          <div className="grid gap-6 md:grid-cols-3 items-center">
+            {/* Control Slider */}
+            <div className="md:col-span-1 space-y-4 p-4 rounded-2xl bg-white border border-amber-100 shadow-xs">
+              <label className="block text-xs font-semibold text-brand-950">
+                Monthly Cylinder Consumption:
+                <span className="ml-2 font-mono text-sm text-amber-800 font-bold" id="lpg-slider-label">
+                  1.0 Cylinders / mo
+                </span>
+              </label>
+              <div className="space-y-1.5">
+                <input
+                  type="range"
+                  min="0.5"
+                  max="3"
+                  step="0.5"
+                  defaultValue="1"
+                  className="w-full accent-amber-600 cursor-pointer h-1.5 bg-amber-100 rounded-lg"
+                  onChange={(e) => {
+                    const cyl = Number(e.target.value);
+                    const label = document.getElementById('lpg-slider-label');
+                    if (label) label.innerText = `${cyl.toFixed(1)} Cylinders / mo`;
+
+                    const lpgCo2 = cyl * 14.2 * 2.983;
+                    const lpgCost = cyl * 850; // Pune domestic subsidized rate approx
+                    // Required thermal MJ delivered = cyl * 14.2 * 46.1 * 0.60
+                    const neededMJ = cyl * 14.2 * 46.1 * 0.60;
+                    // Induction electricity needed (at 84% eff): neededMJ / (3.6 * 0.84)
+                    const inductionKwh = neededMJ / (3.6 * 0.84);
+                    const inductionCost = inductionKwh * 7.5; // blended kWh tariff
+                    const inductionCo2 = inductionKwh * 0.675; // grid factor
+                    const netCo2Saved = lpgCo2 - inductionCo2;
+
+                    const outLpgCo2 = document.getElementById('calc-lpg-co2');
+                    const outIndKwh = document.getElementById('calc-ind-kwh');
+                    const outNetCo2 = document.getElementById('calc-net-co2');
+                    const outSavings = document.getElementById('calc-annual-saving');
+
+                    if (outLpgCo2) outLpgCo2.innerText = `${lpgCo2.toFixed(1)} kg`;
+                    if (outIndKwh) outIndKwh.innerText = `${inductionKwh.toFixed(0)} kWh`;
+                    if (outNetCo2) outNetCo2.innerText = `${netCo2Saved > 0 ? '+' : ''}${netCo2Saved.toFixed(1)} kg`;
+                    if (outSavings) outSavings.innerText = `₹${Math.max(0, (lpgCost - inductionCost) * 12).toFixed(0)}`;
+                  }}
+                />
+                <div className="flex justify-between text-[10px] text-brand-400 font-mono">
+                  <span>0.5 (Small)</span>
+                  <span>1.0 (Average)</span>
+                  <span>3.0 (Large)</span>
+                </div>
+              </div>
+              <p className="text-[11px] text-brand-500 leading-tight">
+                Domestic LPG cylinder subsidy baseline: ₹850/refill (14.2 kg) in Maharashtra urban areas.
+              </p>
+            </div>
+
+            {/* Transition Metrics Display */}
+            <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3.5 rounded-xl bg-white border border-amber-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-amber-700">LPG Direct CO₂</span>
+                <p className="mt-1 text-xl font-bold text-brand-950" id="calc-lpg-co2">
+                  {(1 * 14.2 * 2.983).toFixed(1)} kg
+                </p>
+                <span className="text-[10px] text-amber-600 font-medium">Scope 1 combustion</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-amber-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Induction Power</span>
+                <p className="mt-1 text-xl font-bold text-brand-950" id="calc-ind-kwh">
+                  {((1 * 14.2 * 46.1 * 0.60) / (3.6 * 0.84)).toFixed(0)} kWh
+                </p>
+                <span className="text-[10px] text-brand-400">84% thermal efficiency</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-amber-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Net CO₂ Reduction</span>
+                <p className="mt-1 text-xl font-bold text-emerald-700" id="calc-net-co2">
+                  +{((1 * 14.2 * 2.983) - (((1 * 14.2 * 46.1 * 0.60) / (3.6 * 0.84)) * 0.675)).toFixed(1)} kg
+                </p>
+                <span className="text-[10px] text-emerald-600 font-medium">Monthly avoided</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-amber-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Annual Savings</span>
+                <p className="mt-1 text-xl font-bold text-emerald-700" id="calc-annual-saving">
+                  ₹{Math.max(0, ((1 * 850) - (((1 * 14.2 * 46.1 * 0.60) / (3.6 * 0.84)) * 7.5)) * 12).toFixed(0)}
+                </p>
+                <span className="text-[10px] text-emerald-600 font-medium">Net fuel economy</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Dataset & Methodology Transparency Card */}
       <Card className="border-brand-200/60 bg-brand-50/40">
         <CardHeader>

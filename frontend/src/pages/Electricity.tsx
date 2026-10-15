@@ -379,6 +379,108 @@ export function Electricity() {
         </Card>
       </div>
 
+      {/* Interactive Pune MSEDCL Solar ROI & Decarbonization Calculator */}
+      <Card className="border-brand-200/80 bg-gradient-to-br from-white via-brand-50/20 to-emerald-50/30 shadow-sm overflow-hidden">
+        <CardHeader>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 text-[11px] font-semibold mb-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
+                MSEDCL Residential Tariff Model
+              </div>
+              <h3 className="text-base font-semibold text-brand-950">Rooftop Solar &amp; Carbon Mitigation Simulator</h3>
+            </div>
+            <Badge variant="success">Interactive Decarbonization</Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-2 space-y-6">
+          <p className="text-xs text-brand-600 leading-relaxed max-w-2xl">
+            Simulate your rooftop solar generation potential in Pune ({activeKwh.toFixed(0)} kWh baseline) and calculate monthly electricity bill savings (tiered tariff ₹5.88 – ₹11.82/kWh) and direct grid CO₂ mitigation.
+          </p>
+
+          <div className="grid gap-6 md:grid-cols-3 items-center">
+            {/* Slider / Controls */}
+            <div className="md:col-span-1 space-y-4 p-4 rounded-2xl bg-white border border-brand-100 shadow-xs">
+              <label className="block text-xs font-semibold text-brand-950">
+                Solar Generation Capacity:
+                <span className="ml-2 font-mono text-sm text-emerald-700 font-bold">
+                  {Math.round((activeKwh * 0.65))} kWh / mo
+                </span>
+              </label>
+              <div className="space-y-1.5">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  defaultValue="65"
+                  id="solar-offset-slider"
+                  className="w-full accent-emerald-600 cursor-pointer h-1.5 bg-brand-100 rounded-lg"
+                  onChange={(e) => {
+                    const offsetPct = Number(e.target.value) / 100;
+                    const offsetKwh = activeKwh * offsetPct;
+                    const savedCo2 = offsetKwh * 0.675;
+                    const savedInr = offsetKwh * 8.45; // average blended residential tariff
+                    const outKwh = document.getElementById('calc-kwh');
+                    const outCo2 = document.getElementById('calc-co2');
+                    const outInr = document.getElementById('calc-inr');
+                    const outTree = document.getElementById('calc-tree');
+                    if (outKwh) outKwh.innerText = offsetKwh.toFixed(0);
+                    if (outCo2) outCo2.innerText = savedCo2.toFixed(1);
+                    if (outInr) outInr.innerText = '₹' + savedInr.toFixed(0);
+                    if (outTree) outTree.innerText = (savedCo2 / 1.75).toFixed(1);
+                  }}
+                />
+                <div className="flex justify-between text-[10px] text-brand-400 font-mono">
+                  <span>0% (Grid only)</span>
+                  <span>50%</span>
+                  <span>100% (Net Zero)</span>
+                </div>
+              </div>
+              <p className="text-[11px] text-brand-500 leading-tight">
+                Typical 1 kWp Pune rooftop produces ~120 kWh/month under Maharashtra average insolation (5.2 kWh/m²/day).
+              </p>
+            </div>
+
+            {/* Simulation KPI Display */}
+            <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Solar Offset</span>
+                <p className="mt-1 text-xl font-bold text-brand-950">
+                  <span id="calc-kwh">{(activeKwh * 0.65).toFixed(0)}</span>{' '}
+                  <span className="text-xs font-normal text-brand-500">kWh</span>
+                </p>
+                <span className="text-[10px] text-emerald-600 font-medium">Clean generation</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Bill Savings</span>
+                <p className="mt-1 text-xl font-bold text-emerald-700">
+                  <span id="calc-inr">₹{(activeKwh * 0.65 * 8.45).toFixed(0)}</span>
+                </p>
+                <span className="text-[10px] text-brand-400">Monthly tariff cut</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">CO₂ Avoided</span>
+                <p className="mt-1 text-xl font-bold text-brand-950">
+                  <span id="calc-co2">{(activeKwh * 0.65 * 0.675).toFixed(1)}</span>{' '}
+                  <span className="text-xs font-normal text-brand-500">kg</span>
+                </p>
+                <span className="text-[10px] text-emerald-600 font-medium">CEA factor (0.675)</span>
+              </div>
+
+              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Tree Equiv.</span>
+                <p className="mt-1 text-xl font-bold text-brand-950">
+                  <span id="calc-tree">{((activeKwh * 0.65 * 0.675) / 1.75).toFixed(1)}</span>
+                </p>
+                <span className="text-[10px] text-emerald-600 font-medium">Mature trees/mo</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Grid Emission Factor & Notes */}
       <Card className="border-brand-200/60 bg-white shadow-sm">
         <CardHeader>
