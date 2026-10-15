@@ -68,18 +68,33 @@ export function Landing() {
               {FEATURES.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="p-6 bg-white rounded-2xl border border-brand-100/50 shadow-sm hover:shadow-lg transition-all duration-300"
+                  className="p-7 bg-white rounded-2xl border border-brand-200/70 shadow-xs hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between"
                   style={{ animationDelay: `${index * 80}ms` }}
                 >
-                  <div className="p-3 rounded-xl bg-brand-50 border border-brand-100 w-fit mb-4">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-brand-700">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                    </svg>
+                  <div>
+                    <div className="p-3 rounded-xl bg-brand-50 border border-brand-100/80 w-fit mb-5">
+                      {index === 0 ? (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-amber-600">
+                          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                        </svg>
+                      ) : index === 1 ? (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-emerald-600">
+                          <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" />
+                          <path d="M12 6v6l4 2" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-sky-600">
+                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                          <path d="m9 12 2 2 4-4" />
+                        </svg>
+                      )}
+                    </div>
+                    <h3 className="text-lg font-semibold text-brand-950 mb-2.5">{feature.title}</h3>
+                    <p className="text-sm text-brand-600 mb-6 leading-relaxed">{feature.description}</p>
                   </div>
-                  <h3 className="text-lg font-semibold text-brand-950 mb-2">{feature.title}</h3>
-                  <p className="text-brand-500 mb-4 leading-relaxed">{feature.description}</p>
-                  <div className="pt-4 border-t border-brand-100/50">
-                    <span className="text-sm font-medium text-brand-950 font-mono">{feature.metric}</span>
+                  <div className="pt-4 border-t border-brand-100/70 flex items-center justify-between">
+                    <span className="text-xs uppercase font-bold tracking-wider text-brand-400">Benchmark</span>
+                    <span className="text-sm font-semibold text-brand-950 font-mono">{feature.metric}</span>
                   </div>
                 </div>
               ))}

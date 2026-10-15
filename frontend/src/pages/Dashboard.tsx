@@ -69,12 +69,12 @@ const DOMAIN_CARDS: DomainCardItem[] = [
   },
   {
     key: 'lpg',
-    label: 'LPG',
+    label: 'LPG Thermal',
     status: 'Forecast Live',
-    description: 'Cylinder CO₂ estimation',
+    description: 'Cylinder demand & CO₂ footprint',
     badge: 'success',
     href: '/lpg',
-    featured: false,
+    featured: true,
     icon: BatteryCharging,
     iconColor: 'text-orange-500',
     bgColor: 'bg-orange-50 border-orange-100',
@@ -406,7 +406,7 @@ export function Dashboard() {
               Active & Live
             </motion.h3>
             <StaggerContainer staggerDelay={0.06} delayChildren={0.05}>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {featuredDomains.map((domain, index) => (
                   <DomainCard key={domain.key} domain={domain} index={index} reduce={reduce} />
                 ))}
