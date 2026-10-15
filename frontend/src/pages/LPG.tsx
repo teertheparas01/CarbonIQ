@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader } from '../components/ui';
-import { Badge } from '../components/ui';
+import { Input, Button, Badge } from '../components/ui';
 import { ThermalEarthGlobe } from '../components/animations/ThermalEarthGlobe';
 import {
   BarChart,
@@ -12,6 +13,11 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+
+// LPG emission constants (IPCC/MoPNG)
+const LPG_KG_PER_CYLINDER = 14.2; // kg per domestic cylinder
+const LPG_CO2_FACTOR = 2.983;     // kg CO₂ per kg LPG (IPCC AR5)
+
 
 // Thermal energy efficiency and heat output by cooking fuel type
 const COOKING_FUEL_COMPARISON = [
@@ -29,7 +35,53 @@ const HOUSEHOLD_LPG_USAGE = [
   { householdSize: '7+ Members', daysPerCylinder: 18, monthlyKg: 23.6, thermalMJ: 1088 },
 ];
 
+interface LPGForecastResult {
+  cylinders_t_minus_2: number;
+  cylinders_t_minus_1: number;
+  predicted_cylinders: number;
+  predicted_kg_lpg: number;
+  predicted_co2_kg: number;
+}
+
 export function LPG() {
+  const [formData, setFormData] = useState({ cyl_t_minus_2: '', cyl_t_minus_1: '' });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [result, setResult] = useState<LPGForecastResult | null>(null);
+
+  const validate = (_name: string, value: string): string | null => {
+    const num = parseFloat(value);
+    if (value === '') return 'Required';
+    if (isNaN(num) || num < 0) return 'Must be a non-negative number';
+    return null;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    const err = validate(name, value);
+    setErrors(prev => ({ ...prev, [name]: err || '' }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+    let hasErrors = false;
+    Object.keys(formData).forEach(key => {
+      const err = validate(key, formData[key as keyof typeof formData]);
+      if (err) { newErrors[key] = err; hasErrors = true; }
+    });
+    setErrors(newErrors);
+    if (hasErrors) return;
+
+    const c2 = parseFloat(formData.cyl_t_minus_2);
+    const c1 = parseFloat(formData.cyl_t_minus_1);
+    // Simple weighted moving average: 40% weight on t-2, 60% on t-1
+    const predicted = parseFloat((c2 * 0.4 + c1 * 0.6).toFixed(2));
+    const kgLpg = parseFloat((predicted * LPG_KG_PER_CYLINDER).toFixed(2));
+    const co2 = parseFloat((kgLpg * LPG_CO2_FACTOR).toFixed(2));
+    setResult({ cylinders_t_minus_2: c2, cylinders_t_minus_1: c1, predicted_cylinders: predicted, predicted_kg_lpg: kgLpg, predicted_co2_kg: co2 });
+  };
+
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-12">
       {/* Page Header */}
@@ -53,6 +105,128 @@ export function LPG() {
       <section aria-label="3D Thermal Simulation">
         <ThermalEarthGlobe />
       </section>
+
+      {/* LPG Forecast & Result Section */}
+      <div className="grid gap-6 lg:grid-cols-2 items-start">
+        {/* Input Form Card */}
+        <Card className="border-brand-200/70 bg-white shadow-sm">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-semibold text-brand-950">Next-Month Cylinder Forecast</h2>
+              <Badge variant="success">Weighted Average</Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="pt-4">
+            <p className="text-xs text-brand-600 mb-5 leading-relaxed">
+              Enter cylinders consumed in the last two billing cycles to estimate next month's LPG usage and CO₂ footprint.
+              Uses IPCC AR5 emission factor: <strong>2.983 kg CO₂ / kg LPG</strong>.
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Input
+                  label="Cylinders (t-2)"
+                  name="cyl_t_minus_2"
+                  type="number"
+                  step="0.5"
+                  min="0"
+                  placeholder="e.g., 1"
+                  value={formData.cyl_t_minus_2}
+                  onChange={handleChange}
+                  error={errors.cyl_t_minus_2}
+                  helperText="Cylinders 2 months ago"
+                />
+                <Input
+                  label="Cylinders (t-1)"
+                  name="cyl_t_minus_1"
+                  type="number"
+                  step="0.5"
+                  min="0"
+                  placeholder="e.g., 1.5"
+                  value={formData.cyl_t_minus_1}
+                  onChange={handleChange}
+                  error={errors.cyl_t_minus_1}
+                  helperText="Cylinders last month"
+                />
+              </div>
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Button type="submit" className="w-full sm:w-auto">
+                  Estimate CO₂
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => {
+                    setFormData({ cyl_t_minus_2: '', cyl_t_minus_1: '' });
+                    setErrors({});
+                    setResult(null);
+                  }}
+                >
+                  Clear
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+
+        {/* Prediction Output Card */}
+        {result ? (
+          <Card className="border-orange-200 bg-white shadow-md">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-semibold text-brand-950">Predicted Output</h3>
+                <span className="text-xs font-mono text-amber-700 font-semibold bg-amber-50 px-2.5 py-0.5 rounded-full">
+                  IPCC AR5
+                </span>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="p-4 rounded-xl bg-amber-50 border border-amber-200/80 shadow-sm">
+                  <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold">Predicted Cylinders</p>
+                  <p className="mt-1 text-2xl font-bold text-brand-950 tracking-tight">
+                    {result.predicted_cylinders}{' '}
+                    <span className="text-sm font-normal text-brand-600">cylinders</span>
+                  </p>
+                  <p className="mt-1 text-xs text-amber-600">{result.predicted_kg_lpg} kg LPG</p>
+                </div>
+                <div className="p-4 rounded-xl bg-brand-50 border border-brand-200/80 shadow-sm">
+                  <p className="text-xs text-brand-600 uppercase tracking-wider font-semibold">CO₂ Estimate</p>
+                  <p className="mt-1 text-2xl font-bold text-brand-700 tracking-tight">
+                    {result.predicted_co2_kg}{' '}
+                    <span className="text-sm font-normal text-brand-600">kg CO₂</span>
+                  </p>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-brand-100 space-y-2 text-xs text-brand-600">
+                <div className="flex justify-between py-1 border-b border-brand-100/50">
+                  <span>Emission Factor:</span>
+                  <span className="font-semibold text-brand-950">2.983 kg CO₂/kg LPG</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-brand-100/50">
+                  <span>Cylinder Weight:</span>
+                  <span className="font-semibold text-brand-950">14.2 kg (domestic standard)</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span>Source:</span>
+                  <span className="font-semibold text-brand-950">IPCC AR5 · Scope 1 Direct</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="border-dashed border-amber-200 bg-white/60 flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
+            <div className="p-3 rounded-full bg-amber-50 text-amber-600 mb-3">
+              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+              </svg>
+            </div>
+            <h3 className="text-sm font-semibold text-brand-950">Awaiting Cylinder Inputs</h3>
+            <p className="mt-1 text-xs text-brand-600 max-w-xs">
+              Enter your past two months' cylinder consumption to estimate next month's CO₂ footprint.
+            </p>
+          </Card>
+        )}
+      </div>
 
       {/* Status Overview Cards */}
       <div className="grid gap-4 sm:grid-cols-3">

@@ -31,12 +31,6 @@ const ICON_MAP: Record<string, ReactElement> = {
       <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" />
     </svg>
   ),
-  Apple: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-      <path d="M12 6v6l4 2" />
-    </svg>
-  ),
   Car: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
       <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 13.5 10c-3.6 0-6.8 1.5-8.8 3.8C3.5 15.7 2.8 16.5 2 17" />
@@ -154,17 +148,17 @@ export function TopNav() {
 
   return (
     <motion.header
-      className="fixed top-4 left-0 right-0 z-50 px-4"
+      className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 pointer-events-none"
       aria-label="Main navigation"
       initial={reduce ? false : { y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.5 }}
       style={{ willChange: "transform, opacity" }}
     >
-      <div className="flex items-center justify-between w-full max-w-[900px] mx-auto px-4">
+      <div className="relative flex items-center justify-between w-full max-w-7xl mx-auto">
         {/* Brand - Left corner */}
         <motion.div
-          className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-700 text-white"
+          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-700/90 hover:bg-brand-700 text-white shadow-md backdrop-blur-md border border-brand-600/30 pointer-events-auto transition-colors"
           initial={reduce ? false : { opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0, scale: [1, 1.02, 1] }}
           transition={{
@@ -172,18 +166,17 @@ export function TopNav() {
             x: { delay: 0.15, type: "spring", stiffness: 300, damping: 30 },
             scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
           }}
-          style={{ position: 'absolute', left: '16px' }}
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4 text-emerald-300">
             <path d="M12 2v20M12 2a10 10 0 0 1 0 20" />
             <path d="M2 12h20M2 12a10 10 0 0 1 20 0" />
           </svg>
           <span className="text-sm font-semibold tracking-tight">CarbonIQ</span>
         </motion.div>
 
-        {/* Nav Capsules - Center */}
+        {/* Nav Capsules - Perfectly Centered */}
         <motion.nav
-          className="flex items-center gap-1.5 px-3 py-2 bg-white/90 backdrop-blur-md rounded-[9999px] border border-brand-100/50 shadow-[0_4px_24px_-4px_rgba(5,31,32,0.08),0_0_0_1px_rgba(5,31,32,0.03)] shadow-lg"
+          className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-xl rounded-[9999px] border border-brand-100/70 shadow-[0_8px_30px_rgb(0,0,0,0.12)] pointer-events-auto"
           aria-label="Main navigation"
           initial={reduce ? false : { opacity: 0, y: -20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -212,7 +205,7 @@ export function TopNav() {
                       'flex items-center justify-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
                       isActive
                         ? 'bg-brand-700 text-white shadow-[0_2px_8px_-2px_rgba(5,31,32,0.3)]'
-                        : 'text-brand-500 hover:bg-brand-50 hover:text-brand-900'
+                        : 'text-brand-600 hover:bg-brand-50 hover:text-brand-950'
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -228,7 +221,9 @@ export function TopNav() {
         </motion.nav>
 
         {/* Settings Dropdown - Right side */}
-        <SettingsDropdown />
+        <div className="pointer-events-auto">
+          <SettingsDropdown />
+        </div>
       </div>
     </motion.header>
   );

@@ -8,8 +8,6 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
   { path: '/electricity', label: 'Electricity', icon: 'Zap' },
   { path: '/lpg', label: 'LPG', icon: 'Flame' },
-  { path: '/water', label: 'Water', icon: 'Droplets' },
-  { path: '/food', label: 'Food', icon: 'Apple' },
   { path: '/transport', label: 'Transport', icon: 'Car' },
   { path: '/forecast', label: 'Forecast', icon: 'TrendingUp' },
   { path: '/todo-not-todo', label: "To'Do & Not-To-Do", icon: 'CheckSquare' },

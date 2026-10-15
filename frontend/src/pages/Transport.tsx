@@ -2,6 +2,7 @@
 
 import { Card, CardContent, CardHeader } from '../components/ui';
 import { Badge } from '../components/ui';
+import { motion, useReducedMotion } from 'motion/react';
 import {
   BarChart,
   Bar,
@@ -11,6 +12,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+
 
 const TRANSPORT_MODE_EMISSIONS = [
   { mode: 'Walking / Cycling', gCo2PerKm: 0, category: 'Zero Emission' },
@@ -27,6 +29,137 @@ const PUNE_VEHICLE_OWNERSHIP = [
   { type: 'Four-Wheeler (Car/SUV)', pct: 21 },
   { type: 'Commercial / Auto', pct: 5 },
 ];
+
+function EVvsICAnimation() {
+  const reduce = useReducedMotion();
+
+  return (
+    <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-700 shadow-xl" style={{ minHeight: 260 }}>
+      {/* Sky gradient top */}
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-sky-900/40 to-transparent pointer-events-none" />
+
+      {/* Road */}
+      <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-b from-slate-600 to-slate-700 border-t-2 border-slate-500">
+        {/* Road dashes */}
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-1 flex items-center gap-6 px-4 overflow-hidden">
+          {[...Array(12)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="h-0.5 w-12 bg-yellow-300/50 flex-shrink-0 rounded"
+              animate={reduce ? {} : { x: ['0%', '-100%'] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'linear', delay: i * 0.1 }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── EV Lane (top) ── */}
+      <div className="absolute left-0 right-0" style={{ top: '8%', height: '38%' }}>
+        {/* Label */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
+          <span className="text-xs font-bold text-emerald-400 bg-emerald-900/60 px-2 py-0.5 rounded-full border border-emerald-500/40">EV</span>
+          <span className="text-xs text-emerald-300 font-medium">34 g CO₂/km</span>
+        </div>
+
+        {/* EV Car SVG — moves right across the lane */}
+        <motion.div
+          className="absolute"
+          style={{ top: '15%', left: 0 }}
+          animate={reduce ? {} : { x: ['8%', '72%'] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], repeatType: 'reverse' }}
+        >
+          <svg width="80" height="38" viewBox="0 0 80 38" fill="none">
+            {/* Body */}
+            <rect x="6" y="14" width="60" height="18" rx="5" fill="#22c55e" />
+            {/* Roof */}
+            <path d="M18 14 Q22 4 42 4 Q58 4 62 14Z" fill="#16a34a" />
+            {/* Windows */}
+            <rect x="20" y="6" width="16" height="9" rx="2" fill="#bae6fd" opacity="0.9" />
+            <rect x="40" y="6" width="16" height="9" rx="2" fill="#bae6fd" opacity="0.9" />
+            {/* Wheels */}
+            <circle cx="18" cy="32" r="6" fill="#1e293b" />
+            <circle cx="18" cy="32" r="3" fill="#64748b" />
+            <circle cx="56" cy="32" r="6" fill="#1e293b" />
+            <circle cx="56" cy="32" r="3" fill="#64748b" />
+            {/* EV badge */}
+            <rect x="28" y="18" width="18" height="8" rx="2" fill="#15803d" />
+            <text x="37" y="25" textAnchor="middle" fontSize="6" fill="#bbf7d0" fontWeight="bold">EV</text>
+            {/* Lightning bolt */}
+            <polygon points="70,12 66,21 70,21 65,30 70,21 66,21" fill="#facc15" opacity="0.9" />
+          </svg>
+          {/* Clean air particles */}
+          {!reduce && [0, 1, 2].map(i => (
+            <motion.div
+              key={i}
+              className="absolute w-1.5 h-1.5 rounded-full bg-emerald-400/60"
+              style={{ right: -8 - i * 6, top: 16 + i * 4 }}
+              animate={{ x: [0, -20], opacity: [0.8, 0] }}
+              transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.25, ease: 'easeOut' }}
+            />
+          ))}
+        </motion.div>
+
+        {/* EV trail — green glow */}
+        <motion.div
+          className="absolute h-1 rounded-full bg-gradient-to-r from-emerald-500/0 to-emerald-400/50"
+          style={{ top: '45%', left: '10%', width: '55%' }}
+          animate={reduce ? {} : { opacity: [0.3, 0.7, 0.3] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      </div>
+
+      {/* ── IC Engine Lane (bottom) ── */}
+      <div className="absolute left-0 right-0" style={{ top: '46%', height: '22%' }}>
+        {/* Label */}
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
+          <span className="text-xs font-bold text-red-400 bg-red-900/60 px-2 py-0.5 rounded-full border border-red-500/40">IC</span>
+          <span className="text-xs text-red-300 font-medium">182 g CO₂/km</span>
+        </div>
+
+        {/* IC Car SVG — moves right more slowly */}
+        <motion.div
+          className="absolute"
+          style={{ top: '5%', left: 0 }}
+          animate={reduce ? {} : { x: ['8%', '48%'] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: [0.25, 0.46, 0.45, 0.94], repeatType: 'reverse' }}
+        >
+          <svg width="76" height="34" viewBox="0 0 76 34" fill="none">
+            {/* Body */}
+            <rect x="4" y="12" width="58" height="16" rx="4" fill="#ef4444" />
+            {/* Roof */}
+            <path d="M14 12 Q18 4 36 4 Q52 4 56 12Z" fill="#dc2626" />
+            {/* Windows */}
+            <rect x="16" y="5" width="14" height="8" rx="2" fill="#fca5a5" opacity="0.5" />
+            <rect x="34" y="5" width="14" height="8" rx="2" fill="#fca5a5" opacity="0.5" />
+            {/* Wheels */}
+            <circle cx="16" cy="28" r="6" fill="#1e293b" />
+            <circle cx="16" cy="28" r="3" fill="#64748b" />
+            <circle cx="52" cy="28" r="6" fill="#1e293b" />
+            <circle cx="52" cy="28" r="3" fill="#64748b" />
+            {/* Exhaust pipe */}
+            <rect x="0" y="20" width="6" height="3" rx="1" fill="#78716c" />
+          </svg>
+          {/* Exhaust smoke puffs */}
+          {!reduce && [0, 1, 2].map(i => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-slate-400/40 border border-slate-500/20"
+              style={{ width: 10 + i * 4, height: 10 + i * 4, right: 8 + i * 12, top: 16 - i * 2 }}
+              animate={{ x: [0, -30 - i * 10], opacity: [0.6, 0], scale: [0.8, 1.6] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.3, ease: 'easeOut' }}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Comparison badge */}
+      <div className="absolute top-3 right-4 flex flex-col items-end gap-1">
+        <span className="text-xs font-bold text-white bg-emerald-600/80 px-2.5 py-1 rounded-full shadow">EV is 5.4× cleaner</span>
+        <span className="text-xs text-slate-400">per passenger-km vs solo petrol car</span>
+      </div>
+    </div>
+  );
+}
 
 export function Transport() {
   return (
@@ -50,6 +183,11 @@ export function Transport() {
           </div>
         </div>
       </div>
+
+      {/* EV vs IC Engine Animation */}
+      <section aria-label="EV vs IC Engine Comparison">
+        <EVvsICAnimation />
+      </section>
 
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-3">

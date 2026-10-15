@@ -5,7 +5,7 @@ import { ElevatedCard, StaggerContainer, StaggerItem, cardVariants } from '../li
 import { Button, Badge } from '../components/ui';
 import { 
   Lightning, ArrowUpRight, ArrowDownRight, Gear, CaretRight,
-  ChartBar, BatteryCharging
+  BatteryCharging
 } from '@phosphor-icons/react';
 
 interface KPIMetric {
@@ -70,38 +70,14 @@ const DOMAIN_CARDS: DomainCardItem[] = [
   {
     key: 'lpg',
     label: 'LPG',
-    status: 'Planned',
-    description: 'No CO₂ calculation yet',
-    badge: 'neutral',
+    status: 'Forecast Live',
+    description: 'Cylinder CO₂ estimation',
+    badge: 'success',
     href: '/lpg',
     featured: false,
     icon: BatteryCharging,
     iconColor: 'text-orange-500',
     bgColor: 'bg-orange-50 border-orange-100',
-  },
-  {
-    key: 'water',
-    label: 'Water',
-    status: 'Planned',
-    description: 'No CO₂ calculation yet',
-    badge: 'neutral',
-    href: '/water',
-    featured: false,
-    icon: ChartBar,
-    iconColor: 'text-sky-500',
-    bgColor: 'bg-sky-50 border-sky-100',
-  },
-  {
-    key: 'food',
-    label: 'Food',
-    status: 'Planned',
-    description: 'No CO₂ calculation yet',
-    badge: 'neutral',
-    href: '/food',
-    featured: false,
-    icon: Gear,
-    iconColor: 'text-rose-500',
-    bgColor: 'bg-rose-50 border-rose-100',
   },
   {
     key: 'transport',
@@ -283,7 +259,7 @@ export function Dashboard() {
       value: '0.675',
       unit: 'kg/kWh',
       trend: { value: 'Fixed', label: 'CEA v22.0', positive: true },
-      icon: ChartBar,
+      icon: Gear,
       iconColor: 'text-sky-500',
       bgColor: 'bg-sky-50 border-sky-100',
     },
@@ -315,7 +291,7 @@ export function Dashboard() {
           value: lastResult.emission_factor_kg_co2_per_kwh.toFixed(3),
           unit: 'kg/kWh',
           trend: { value: 'Fixed', label: 'CEA v22.0', positive: true },
-          icon: ChartBar,
+          icon: Gear,
           iconColor: 'text-sky-500',
           bgColor: 'bg-sky-50 border-sky-100',
         },

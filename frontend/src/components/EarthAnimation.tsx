@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useTexture, Html } from '@react-three/drei';
+import { useTexture } from '@react-three/drei';
 import { useRef, useMemo, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
@@ -122,11 +122,12 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
     }
 
     // Camera Zoom:
-    // Starts at full orbit (z=4.75)
-    // Zooms in smoothly and halts directly over Pune (z=2.70)
-    const targetZ = THREE.MathUtils.lerp(4.75, 2.70, easeP);
-    state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, targetZ, 8, delta);
-    state.camera.position.y = 0;
+    // Starts at wide orbit (z=4.8)
+    // Zooms smoothly to a high-altitude cinematic orbital view of the subcontinent (z=3.85)
+    // Halting at z=3.85 preserves full texture clarity and prevents single-pixel stretching
+    const targetZ = THREE.MathUtils.lerp(4.8, 3.85, easeP);
+    state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, targetZ, 7, delta);
+    state.camera.position.y = THREE.MathUtils.lerp(0, 0.25, easeP);
     state.camera.lookAt(0, 0, 0);
 
     // Pulsing green beacon on Pune
@@ -138,64 +139,77 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
 
   return (
     <group ref={earthGroupRef}>
-      {/* Photorealistic Earth Surface (Natural, NO artificial blue ring) */}
+      {/* 5K Multi-layer Day & Night Earth: Deep Blue Oceans + Illuminated Continents + Golden Night Cities */}
       <mesh>
-        <sphereGeometry args={[EARTH_RADIUS, 96, 96]} />
+        <sphereGeometry args={[EARTH_RADIUS, 128, 128]} />
         <meshStandardMaterial
           map={nasaMap}
           normalMap={normalMap}
-          normalScale={new THREE.Vector2(0.4, 0.4)}
+          normalScale={new THREE.Vector2(0.5, 0.5)}
           roughnessMap={specularMap}
-          roughness={0.65}
+          roughness={0.75}
           metalness={0.1}
           emissiveMap={nightMap}
-          emissive="#f59e0b" // Warm city lights
-          emissiveIntensity={0.6}
+          emissive="#fbbf24" // Clear golden-amber city lights
+          emissiveIntensity={2.8} // Strong glow for urban networks
+          color="#1e293b" // Deep atmospheric navy for continental clarity
         />
       </mesh>
 
-      {/* 4K Translucent Cloud Layer */}
+      {/* Atmospheric Horizon Rim / Cyan-Blue Limb Glow */}
+      <mesh scale={[1.02, 1.02, 1.02]}>
+        <sphereGeometry args={[EARTH_RADIUS, 64, 64]} />
+        <shaderMaterial
+          side={THREE.BackSide}
+          transparent
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          uniforms={{
+            glowColor: { value: new THREE.Color('#38bdf8') }, // Crisp cyan orbital atmosphere
+          }}
+          vertexShader={`
+            varying vec3 vNormal;
+            void main() {
+              vNormal = normalize(normalMatrix * normal);
+              gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+          `}
+          fragmentShader={`
+            varying vec3 vNormal;
+            uniform vec3 glowColor;
+            void main() {
+              float intensity = pow(0.7 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 2.5);
+              gl_FragColor = vec4(glowColor, intensity * 0.85);
+            }
+          `}
+        />
+      </mesh>
+
+      {/* 4K Cloud Wisps */}
       <mesh ref={cloudsRef} scale={[1.008, 1.008, 1.008]}>
         <sphereGeometry args={[EARTH_RADIUS, 96, 96]} />
         <meshStandardMaterial
           map={cloudsMap}
           transparent
-          opacity={0.3}
+          opacity={0.2}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
+          color="#f8fafc"
         />
       </mesh>
 
-      {/* Pune Geographic Marker - Clean Green & White Theme */}
+      {/* Pune Geographic Marker - Subtle Golden Beacon */}
       <group position={punePosition}>
         {/* Pulsing Beacon Dot */}
         <mesh ref={beaconRef}>
-          <sphereGeometry args={[0.02, 16, 16]} />
-          <meshBasicMaterial color="#8EB69B" />
+          <sphereGeometry args={[0.022, 16, 16]} />
+          <meshBasicMaterial color="#fef08a" />
         </mesh>
-
-        {/* Clean Pill Label - Green & White Palette */}
-        <Html
-          position={[0, 0.055, 0]}
-          center
-          style={{
-            pointerEvents: 'none',
-            transform: 'translate3d(0, 0, 0)',
-            transition: 'opacity 0.3s ease',
-          }}
-        >
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#051F20]/90 border border-[#8EB69B]/50 shadow-[0_0_15px_rgba(142,182,155,0.35)] backdrop-blur-md whitespace-nowrap select-none">
-            <span className="w-2 h-2 rounded-full bg-[#8EB69B] animate-ping" />
-            <div className="text-left">
-              <p className="text-[11px] font-bold text-white tracking-wider">PUNE, MH</p>
-              <p className="text-[9px] text-[#8EB69B] font-mono">18.52° N, 73.85° E</p>
-            </div>
-          </div>
-        </Html>
       </group>
     </group>
   );
 }
+
 
 /* ------------------------------------------------------------------ */
 /*  Main Component - Strict Green & White Brand Theme                 */
@@ -241,21 +255,21 @@ export function EarthAnimation() {
           }}
           className="w-full h-full"
         >
-          {/* Deep Space Background - Dark Forest Brand Base */}
-          <color attach="background" args={['#051F20']} />
-          <ambientLight intensity={0.25} />
+          {/* Deep Space Background */}
+          <color attach="background" args={['#030712']} />
+          <ambientLight intensity={1.1} color="#e2e8f0" />
 
-          {/* Crisp Directional Sunlight */}
+          {/* Sun / Key Light illuminating continents and oceans */}
           <directionalLight
-            position={[10, 4, 6]}
-            intensity={3.2}
+            position={[10, 5, 8]}
+            intensity={2.8}
             color="#ffffff"
           />
-          {/* Subtle celestial fill light */}
+          {/* Subtle celestial cool fill light for blue ocean luster */}
           <directionalLight
-            position={[-8, -2, -5]}
-            intensity={0.08}
-            color="#8EB69B"
+            position={[-8, -3, -5]}
+            intensity={0.6}
+            color="#38bdf8"
           />
 
           <StarField />
@@ -265,45 +279,59 @@ export function EarthAnimation() {
           </Suspense>
         </Canvas>
 
-        {/* Arrival Card Overlay - Strict Green & White Brand Theme */}
+        {/* Arrival Card Overlay - Modern Frosted Glass Aesthetic matching reference */}
         <motion.div
           style={{
             opacity: endOverlayOpacity,
             y: endOverlayY,
           }}
-          className="absolute inset-x-0 bottom-8 flex justify-center px-6 pointer-events-auto"
+          className="absolute inset-x-0 bottom-6 md:bottom-10 flex justify-center px-4 md:px-6 pointer-events-auto"
         >
-          <div className="max-w-2xl w-full p-6 md:p-8 rounded-2xl bg-[#051F20]/90 border border-[#8EB69B]/35 shadow-[0_0_40px_rgba(142,182,155,0.25)] backdrop-blur-xl text-center">
+          <div className="max-w-4xl w-full p-8 md:p-12 rounded-3xl bg-white/10 border border-white/20 shadow-[0_16px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl text-center relative overflow-hidden">
+            {/* Subtle frosted glow gradient behind card */}
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none" />
+
             {/* Pill Tag */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#235347]/60 border border-[#8EB69B]/40 text-[#8EB69B] text-xs font-semibold mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#8EB69B] animate-pulse" />
-              DESTINATION: PUNE, MAHARASHTRA
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/25 border border-white/20 text-emerald-200 text-xs font-medium tracking-wide mb-5 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>DESTINATION: PUNE, MAHARASHTRA</span>
             </div>
 
-            {/* Main Headline - Crisp White & Brand Mint */}
-            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-              Urban Household Energy &amp; <span className="text-[#8EB69B]">Carbon Analytics</span>
-            </h2>
+            {/* Main Headline - Elegant, Light/Medium Weight with Accent word */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-light text-white tracking-tight leading-[1.15] max-w-2xl mx-auto font-['Plus_Jakarta_Sans',sans-serif]">
+              Urban Household Energy as <span className="font-semibold text-emerald-300">One Carbon System</span>
+            </h1>
 
-            {/* Explanatory Text */}
-            <p className="mt-2.5 text-sm md:text-base text-[#DAF1DE]/90 leading-relaxed max-w-lg mx-auto">
+            {/* Explanatory Subtitle - Light and crisp */}
+            <p className="mt-4 text-sm sm:text-base text-emerald-100/80 font-light leading-relaxed max-w-xl mx-auto">
               Precision machine learning models calibrated with regional grid emission standards (CEA v22.0) and seasonal consumption dynamics.
             </p>
 
-            {/* CTAs - Green and White Palette */}
-            <div className="mt-5 flex flex-wrap gap-3 justify-center">
+            {/* CTAs - Clean pill action button matching reference pill button with arrow */}
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="/forecast"
-                className="px-6 py-2.5 rounded-xl font-bold text-sm bg-[#8EB69B] text-[#051F20] hover:bg-[#B8D4C0] shadow-lg shadow-[#8EB69B]/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-semibold bg-white text-slate-900 hover:bg-emerald-50 shadow-lg shadow-black/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                Launch Energy Forecast
+                <span>Launch Forecast</span>
+                <span className="w-5 h-5 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs">
+                  ↗
+                </span>
               </a>
+
               <a
                 href="/electricity"
-                className="px-6 py-2.5 rounded-xl font-semibold text-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium text-white/90 hover:text-white bg-black/20 hover:bg-black/30 border border-white/15 backdrop-blur-md hover:scale-[1.02] active:scale-[0.98] transition-all"
               >
-                Explore Analytics
+                <span>Explore Analytics</span>
               </a>
+            </div>
+
+            {/* Subtle bottom meta bar reflecting reference style */}
+            <div className="mt-8 pt-5 border-t border-white/10 flex items-center justify-between text-[11px] text-white/40 tracking-wider uppercase font-mono px-2">
+              <span>CEA v22.0 Standard</span>
+              <span className="hidden sm:inline">Scope 2 Indirect</span>
+              <span>18.52° N, 73.85° E</span>
             </div>
           </div>
         </motion.div>
