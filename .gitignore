@@ -58,6 +58,14 @@ lerna-debug.log*
 *.temp
 *~
 
+# Generated reports and reference assets
+*.docx
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+
 # IDE/Editor specific
 *.swp
 *.swo

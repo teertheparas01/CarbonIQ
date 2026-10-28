@@ -22,7 +22,7 @@ export function TodoNotTodo() {
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
-        <h2 className="text-lg font-medium text-brand-950">To'Do & Not-To-Do</h2>
+        <h2 className="text-lg font-medium text-brand-950">Do's & Don'ts</h2>
         <p className="mt-1 text-sm text-brand-500">
           Actionable guidance and important limitations for using CarbonIQ responsibly.
         </p>
@@ -32,7 +32,7 @@ export function TodoNotTodo() {
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-4">
-              <Badge variant="success">To'Do</Badge>
+              <Badge variant="success">Do's</Badge>
               <h3 className="text-sm font-medium text-brand-950">Recommended Actions</h3>
             </div>
             <ul className="space-y-3" role="list">
@@ -51,7 +51,7 @@ export function TodoNotTodo() {
         <Card className="border-red-200/50 bg-red-50/30">
           <CardContent className="pt-6">
             <div className="flex items-center gap-2 mb-4">
-              <Badge variant="warning">Not-To-Do</Badge>
+              <Badge variant="warning">Don'ts</Badge>
               <h3 className="text-sm font-medium text-red-800">Actions to Avoid</h3>
             </div>
             <ul className="space-y-3" role="list">

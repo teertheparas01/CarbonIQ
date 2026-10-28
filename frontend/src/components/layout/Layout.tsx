@@ -11,7 +11,7 @@ const PAGE_META: Record<string, { title: string; description?: string }> = {
   '/food': { title: 'Food', description: 'Food consumption and context (CO₂ calculation not available)' },
   '/transport': { title: 'Transport', description: 'Vehicle ownership data (no CO₂ calculation — insufficient travel data)' },
   '/forecast': { title: 'Forecast', description: 'Next-month electricity forecast and carbon estimation' },
-  '/todo-not-todo': { title: "To'Do & Not-To-Do", description: 'Actionable recommendations for reducing emissions' },
+  '/todo-not-todo': { title: "Do's & Don'ts", description: 'Actionable recommendations for reducing emissions' },
   '/settings': { title: 'Settings', description: 'View model and emission factor configuration' },
 };
 
