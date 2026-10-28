@@ -12,7 +12,7 @@ export function AnimatedGradientBackground() {
       {!reduce && (
         <>
           <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full blur-3xl opacity-20"
+            className="absolute w-[600px] h-[600px] rounded-full blur-3xl opacity-30"
             style={{
               background: 'linear-gradient(135deg, #235347 0%, #8EB69B 50%, #DAF1DE 100%)',
               top: '-150px',
@@ -31,7 +31,7 @@ export function AnimatedGradientBackground() {
           />
 
           <motion.div
-            className="absolute w-[500px] h-[500px] rounded-full blur-3xl opacity-15"
+            className="absolute w-[500px] h-[500px] rounded-full blur-3xl opacity-25"
             style={{
               background: 'linear-gradient(135deg, #059669 0%, #10b981 50%, #6ee7b7 100%)',
               bottom: '-100px',
@@ -51,7 +51,7 @@ export function AnimatedGradientBackground() {
           />
 
           <motion.div
-            className="absolute w-[400px] h-[400px] rounded-full blur-3xl opacity-10"
+            className="absolute w-[400px] h-[400px] rounded-full blur-3xl opacity-20"
             style={{
               background: 'linear-gradient(135deg, #16a34a 0%, #22c55e 50%, #86efac 100%)',
               top: '40%',
@@ -73,11 +73,11 @@ export function AnimatedGradientBackground() {
       )}
 
       {/* Subtle mesh gradient overlay */}
-      <div className="absolute inset-0 opacity-30" style={{
+      <div className="absolute inset-0 opacity-50" style={{
         backgroundImage: `
-          radial-gradient(ellipse 80% 50% at 20% 20%, rgba(35, 83, 71, 0.15) 0%, transparent 50%),
-          radial-gradient(ellipse 60% 40% at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-          radial-gradient(ellipse 50% 30% at 50% 50%, rgba(218, 241, 222, 0.2) 0%, transparent 60%)
+          radial-gradient(ellipse 80% 50% at 20% 20%, rgba(35, 83, 71, 0.25) 0%, transparent 50%),
+          radial-gradient(ellipse 60% 40% at 80% 80%, rgba(16, 185, 129, 0.18) 0%, transparent 50%),
+          radial-gradient(ellipse 50% 30% at 50% 50%, rgba(218, 241, 222, 0.3) 0%, transparent 60%)
         `
       }} />
 
@@ -86,7 +86,7 @@ export function AnimatedGradientBackground() {
         <motion.div
           className="absolute inset-0 overflow-hidden pointer-events-none"
           style={{
-            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%)',
+            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%)',
             transform: 'rotate(-15deg) translateX(-200%)',
           }}
           animate={{

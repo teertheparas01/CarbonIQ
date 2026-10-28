@@ -117,11 +117,7 @@
     font-size: 14px;
     line-height: 1.6;
     color: var(--color-brand-950);
-    background-color: var(--color-brand-50);
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, var(--color-brand-100) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 40% at 100% 100%, var(--color-brand-100) 0%, transparent 60%);
-    background-attachment: fixed;
+    background-color: transparent;
   }
 
   /* Focus styles */
