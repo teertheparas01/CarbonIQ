@@ -1,5 +1,4 @@
 import { EarthAnimation } from '../components/EarthAnimation';
-import { AnimatedGradientBackground } from '../components/AnimatedGradientBackground';
 import { motion, useReducedMotion } from 'motion/react';
 
 const FEATURES = [
@@ -43,7 +42,6 @@ export function Landing() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <AnimatedGradientBackground />
       <EarthAnimation />
 
       <main className="relative bg-brand-50">

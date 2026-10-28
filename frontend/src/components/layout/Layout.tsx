@@ -2,6 +2,7 @@ import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
 import { TopNav } from './TopNav';
 import { Header } from './Header';
 import { PageContainer } from './PageContainer';
+import { AnimatedGradientBackground } from '../AnimatedGradientBackground';
 
 const PAGE_META: Record<string, { title: string; description?: string }> = {
   '/': { title: 'Dashboard', description: 'Overview of your carbon footprint and forecasts' },
@@ -32,7 +33,8 @@ export function Layout() {
   const isLanding = location.pathname === '/';
 
   return (
-    <div className="min-h-screen bg-brand-50 flex flex-col">
+    <div className="min-h-screen bg-brand-50 flex flex-col relative">
+      <AnimatedGradientBackground />
       <TopNav />
       <div className={`flex-1 flex flex-col min-w-0 ${isLanding ? 'pt-0' : 'pt-24'}`}>
         {isLanding ? (
