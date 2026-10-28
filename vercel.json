@@ -20,7 +20,7 @@
     "backend": {
       "root": "backend",
       "framework": "fastapi",
-      "runtime": "python3.12",
+      "runtime": "python3.11",
       "buildCommand": "pip install -r requirements.txt",
       "devCommand": "uvicorn app:app --reload --port 8000",
       "installCommand": "pip install -r requirements.txt"
