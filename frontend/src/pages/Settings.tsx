@@ -2,6 +2,7 @@ import { useHealth } from '../hooks';
 import { useForecast } from '../hooks';
 import { Card, CardContent, CardHeader } from '../components/ui';
 import { Badge, Button } from '../components/ui';
+import { API_BASE_URL } from '../api';
 
 export function Settings() {
   const { health, checkHealth } = useHealth();
@@ -56,7 +57,7 @@ export function Settings() {
           {health && (
             <div className="p-4 rounded-lg bg-brand-100/30 border border-brand-200/50">
               <p className="text-sm text-brand-500">API Base URL</p>
-              <p className="mt-0.5 font-mono text-sm text-brand-950">{import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000 (default)'}</p>
+              <p className="mt-0.5 font-mono text-sm text-brand-950">{API_BASE_URL}</p>
             </div>
           )}
         </CardContent>

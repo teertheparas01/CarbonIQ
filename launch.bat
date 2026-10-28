@@ -84,7 +84,7 @@ echo ============================================================
 echo   CarbonIQ is running!
 echo   Frontend: http://localhost:5173
 echo   Backend:  http://127.0.0.1:8000
-echo   API Docs: http://127.0.0.1:8000/docs
+echo   API Docs: http://127.0.0.1:8000/api/docs
 echo ============================================================
 echo.
 echo Close this window to stop both servers.

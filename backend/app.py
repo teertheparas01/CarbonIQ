@@ -1,9 +1,10 @@
 from pathlib import Path
 import json
+import os
 
 import joblib
 import pandas as pd
-from fastapi import FastAPI
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -20,15 +21,18 @@ model = joblib.load(MODEL_PATH)
 emission_factor = metadata["emission_factor"]
 factor = emission_factor["kg_co2_per_kwh"]
 
+router = APIRouter()
+
 app = FastAPI(
     title="CarbonIQ API",
     description="Electricity forecasting and carbon estimation",
-    version="0.1.0"
+    version="0.1.0",
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 
 # CORS origins — local dev + Vercel preview/production
-import os
-
 ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
@@ -62,7 +66,7 @@ class PredictionRequest(BaseModel):
     target_month_num: int = Field(ge=1, le=12)
 
 
-@app.get("/health")
+@router.get("/health")
 def health():
     return {
         "status": "ok",
@@ -71,7 +75,7 @@ def health():
     }
 
 
-@app.post("/predict")
+@router.post("/predict")
 def predict(request: PredictionRequest):
     # Construct inputs in the model's documented feature order.
     values = {
@@ -103,3 +107,7 @@ def predict(request: PredictionRequest):
         "model_metrics": metadata["evaluation"],
         "limitations": metadata["limitations"]
     }
+
+
+app.include_router(router, prefix="/api")
+app.include_router(router, include_in_schema=False)

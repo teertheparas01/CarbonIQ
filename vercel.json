@@ -2,42 +2,18 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
     "frontend": {
-      "root": "frontend",
+      "root": "frontend/",
       "framework": "vite",
-      "buildCommand": "npm run build",
-      "devCommand": "npm run dev",
-      "installCommand": "npm install",
-      "outputDirectory": "dist",
-      "bindings": [
-        {
-          "type": "service",
-          "service": "backend",
-          "format": "url",
-          "env": "VITE_API_BASE_URL"
-        }
-      ]
+      "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
     },
     "backend": {
-      "root": "backend",
+      "root": "backend/",
       "framework": "fastapi",
-      "entrypoint": "app.py",
-      "buildCommand": "pip install -r requirements.txt",
-      "devCommand": "uvicorn app:app --reload --port 8000",
-      "installCommand": "pip install -r requirements.txt"
+      "entrypoint": "app.py"
     }
   },
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": {
-        "service": "backend"
-      }
-    },
-    {
-      "source": "/(.*)",
-      "destination": {
-        "service": "frontend"
-      }
-    }
+    { "source": "/api/(.*)", "destination": { "service": "backend" } },
+    { "source": "/(.*)", "destination": { "service": "frontend" } }
   ]
 }

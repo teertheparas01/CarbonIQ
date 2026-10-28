@@ -79,7 +79,7 @@ def main():
     print("  CarbonIQ is running!")
     print("  Frontend: http://localhost:5173")
     print("  Backend:  http://127.0.0.1:8000")
-    print("  API Docs: http://127.0.0.1:8000/docs")
+    print("  API Docs: http://127.0.0.1:8000/api/docs")
     print("=" * 50)
     print("Press Ctrl+C to stop both servers")
     print("=" * 50)

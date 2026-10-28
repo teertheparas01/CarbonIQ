@@ -1,13 +1,12 @@
 import axios, { type AxiosInstance, type AxiosError } from 'axios';
 import type { PredictRequest, PredictResponse, HealthResponse } from '../types/api';
 
-// Use relative paths — Vercel rewrites /api/* to the backend service.
-// In local dev, VITE_API_BASE_URL points to localhost:8000.
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '';
+export const API_BASE_URL: string =
+  (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/+$/, '') || '/api';
 
 const api: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
