@@ -146,7 +146,7 @@ export const ElevatedCard = ({
 
   return (
     <motion.div
-      className={clsx("bg-white rounded-xl border border-brand-100/50 shadow-[var(--shadow-card)] transition-[box-shadow,transform,border-color,background-color] duration-200", elevated && "shadow-[var(--shadow-elevated)] border-brand-100/50", interactive && "hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 hover:border-brand-300/50 cursor-pointer", className)}
+      className={clsx("bg-white/88 backdrop-blur-sm rounded-xl border border-brand-100/50 shadow-[var(--shadow-card)] transition-[box-shadow,transform,border-color,background-color] duration-200", elevated && "shadow-[var(--shadow-elevated)] border-brand-100/50", interactive && "hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 hover:border-brand-300/50 cursor-pointer", className)}
       initial={false}
       animate={elevated ? "elevated" : "initial"}
       whileHover={interactive ? "hover" : undefined}

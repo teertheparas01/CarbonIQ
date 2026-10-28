@@ -176,7 +176,7 @@
      CARD SYSTEM - Layered depth
      ======================================== */
   .card {
-    background-color: white;
+    background-color: color-mix(in srgb, white 88%, transparent);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
     border: 1px solid color-mix(in srgb, var(--color-brand-100) 70%, transparent);
@@ -185,6 +185,7 @@
       transform var(--transition-normal),
       border-color var(--transition-fast),
       background-color var(--transition-fast);
+    backdrop-filter: blur(8px);
   }
 
   .card:hover {
@@ -1122,7 +1123,7 @@
      STAT CARD / KPI
      ======================================== */
   .stat-card {
-    background-color: white;
+    background-color: color-mix(in srgb, white 88%, transparent);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-card);
     border: 1px solid color-mix(in srgb, var(--color-brand-100) 70%, transparent);
@@ -1132,6 +1133,7 @@
       border-color var(--transition-fast),
       background-color var(--transition-fast);
     padding: var(--space-6);
+    backdrop-filter: blur(8px);
   }
 
   .stat-value {
