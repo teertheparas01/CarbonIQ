@@ -159,7 +159,7 @@ export function Water() {
           <ul className="space-y-2 text-sm text-brand-600">
             <li className="flex items-start gap-2">
               <span className="text-cyan-500 font-bold mt-0.5">•</span>
-              <span><strong>Survey Data Collected:</strong> Storage type, municipal piped frequency, tanker costs, and payment mechanisms are recorded in the 5,347 household dataset.</span>
+              <span><strong>Survey Data Collected:</strong> Storage type, municipal piped frequency, tanker costs, and payment mechanisms are cataloged in our baseline household study (see About for complete scope).</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-cyan-500 font-bold mt-0.5">•</span>

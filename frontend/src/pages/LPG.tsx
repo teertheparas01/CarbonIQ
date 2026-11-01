@@ -118,8 +118,7 @@ export function LPG() {
           </CardHeader>
           <CardContent className="pt-4">
             <p className="text-xs text-brand-600 mb-5 leading-relaxed">
-              Enter cylinders consumed in the last two billing cycles to estimate next month's LPG usage and CO₂ footprint.
-              Uses IPCC AR5 emission factor: <strong>2.983 kg CO₂ / kg LPG</strong>.
+              Enter cylinders consumed in the last two billing cycles to estimate your next month's LPG requirements and thermal emissions.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
@@ -176,7 +175,7 @@ export function LPG() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-semibold text-brand-950">Predicted Output</h3>
-                <Badge variant="warning" glass size="sm">IPCC AR5</Badge>
+                <Badge variant="warning" glass size="sm">Estimated</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -207,8 +206,8 @@ export function LPG() {
                   <span className="font-semibold text-brand-950">14.2 kg (domestic standard)</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span>Source:</span>
-                  <span className="font-semibold text-brand-950">IPCC AR5 · Scope 1 Direct</span>
+                  <span>Standard:</span>
+                  <span className="font-semibold text-brand-950">Direct Thermal Output</span>
                 </div>
               </div>
             </CardContent>

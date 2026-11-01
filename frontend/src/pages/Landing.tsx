@@ -4,18 +4,18 @@ import { motion, useReducedMotion } from 'motion/react';
 const FEATURES = [
   {
     title: 'Electricity Demand Forecasting',
-    description: 'Predict next-month household consumption using Seasonal Gradient Boosting trained on 5,347 residential billing cycles.',
-    metric: '32.12 kWh MAE',
+    description: 'Forecast upcoming household energy requirements using historical billing trends and seasonal dynamics.',
+    metric: 'Predictive',
   },
   {
     title: 'Deterministic Carbon Accounting',
-    description: 'CO₂ quantified strictly from predicted kWh using Central Electricity Authority (CEA v22.0) baseline grid emission factor.',
-    metric: '0.675 kg CO₂/kWh',
+    description: 'Calculate verified Scope 2 CO₂ emissions directly from forecasted kilowatt-hours with transparent accounting.',
+    metric: 'Deterministic',
   },
   {
-    title: 'Transparent Model Validation',
-    description: 'Empirical cross-validation across climatic zones with verifiable feature attribution and full methodology transparency.',
-    metric: 'Standardized CEA v22.0',
+    title: 'Actionable Decarbonization',
+    description: 'Identify practical efficiency levers, cooking fuel transitions, and behavioral habits to reduce power waste.',
+    metric: 'Impact-Driven',
   },
 ];
 
@@ -27,8 +27,8 @@ const HOW_IT_WORKS = [
 
 const METRICS = [
   {
-    label: 'Validated Samples',
-    value: '5,347',
+    label: 'Platform Architecture',
+    value: 'Unified',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-emerald-600">
         <ellipse cx="12" cy="5" rx="9" ry="3" />
@@ -38,8 +38,8 @@ const METRICS = [
     ),
   },
   {
-    label: 'Test MAE',
-    value: '32.12 kWh',
+    label: 'Forecast Granularity',
+    value: 'Monthly',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-amber-600">
         <circle cx="12" cy="12" r="10" />
@@ -49,8 +49,8 @@ const METRICS = [
     ),
   },
   {
-    label: 'Grid Emission Factor',
-    value: '0.675',
+    label: 'Carbon Calculation',
+    value: 'Standardized',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-sky-600">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -58,8 +58,8 @@ const METRICS = [
     ),
   },
   {
-    label: 'Emission Factor Source',
-    value: 'CEA v22.0',
+    label: 'Household Intelligence',
+    value: 'One System',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-emerald-600">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
@@ -248,12 +248,12 @@ export function Landing() {
               </nav>
             </div>
             <div>
-              <h4 className="font-medium text-white mb-4">Standards &amp; Citations</h4>
+              <h4 className="font-medium text-white mb-4">Platform &amp; Insights</h4>
               <nav className="space-y-2 text-sm text-brand-400">
                 <a href="/about" className="hover:text-white transition-colors block text-emerald-400 font-medium">About CarbonIQ &amp; Tech Stack →</a>
-                <a href="/settings" className="hover:text-white transition-colors block">CEA Baseline Database v22.0</a>
-                <a href="/about" className="hover:text-white transition-colors block">Model Architecture Card</a>
-                <a href="/about" className="hover:text-white transition-colors block">GHG Protocol Scope 2</a>
+                <a href="/forecast" className="hover:text-white transition-colors block">Energy Demand Modeling</a>
+                <a href="/todo-not-todo" className="hover:text-white transition-colors block">Household Action Levers</a>
+                <a href="/settings" className="hover:text-white transition-colors block">System Diagnostics</a>
               </nav>
             </div>
           </div>

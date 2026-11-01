@@ -293,14 +293,14 @@ export function Forecast() {
               <div>
                 <p className="text-sm font-medium text-brand-950">Electricity Pipeline</p>
                 <p className="mt-1 text-sm text-brand-600">
-                  <strong>The model predicts electricity consumption (kWh).</strong> CO₂ is calculated deterministically from the predicted kWh using the official baseline emission factor (0.675 kg CO₂/kWh, CEA v22.0, FY 2025-26).
+                  <strong>The model predicts electricity consumption (kWh).</strong> CO₂ is calculated deterministically from your predicted kilowatt-hours.
                 </p>
               </div>
             ) : (
               <div>
                 <p className="text-sm font-medium text-brand-950">LPG Thermal Pipeline</p>
                 <p className="mt-1 text-sm text-brand-600">
-                  <strong>Weighted moving average (40/60) predicts cylinder demand.</strong> CO₂ is calculated deterministically using the IPCC AR5 domestic standard: 14.2 kg LPG per cylinder × 2.983 kg CO₂/kg LPG.
+                  <strong>Weighted moving average predicts cylinder demand.</strong> Direct emissions are calculated based on domestic cylinder consumption.
                 </p>
               </div>
             )}
@@ -317,7 +317,7 @@ export function Forecast() {
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-brand-950">Electricity Forecast</h3>
-                    <Badge variant="success" glass>Gradient Boosting</Badge>
+                    <Badge variant="success" glass>Forecast Model</Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -391,7 +391,7 @@ export function Forecast() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-brand-950">Electricity Prediction Result</h3>
-                      <Badge variant="info" glass size="sm">CEA v22.0</Badge>
+                      <Badge variant="info" glass size="sm">Standardized</Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-5">
@@ -448,7 +448,7 @@ export function Forecast() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-xs text-brand-600 mb-4 leading-relaxed">
-                    Enter cylinders consumed in preceding cycles to forecast next month&apos;s LPG requirement and direct Scope 1 CO₂ footprint using IPCC AR5 standards.
+                    Enter cylinders consumed in preceding cycles to forecast next month&apos;s LPG requirement and direct carbon footprint.
                   </p>
                   <form onSubmit={handleLpgSubmit} className="space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -507,7 +507,7 @@ export function Forecast() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-brand-950">LPG Prediction Result</h3>
-                      <Badge variant="warning" glass size="sm">IPCC AR5</Badge>
+                      <Badge variant="warning" glass size="sm">Estimated</Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-5">

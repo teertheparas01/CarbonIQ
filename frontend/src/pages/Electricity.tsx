@@ -152,12 +152,12 @@ export function Electricity() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-brand-950">Next-Month Consumption Forecast</h2>
-              <Badge variant="success" glass>Gradient Boosting</Badge>
+              <Badge variant="success" glass>Forecast Model</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-4">
             <p className="text-xs text-brand-600 mb-5 leading-relaxed">
-              Enter consumption from the preceding two billing cycles to forecast next month using our seasonal ML pipeline trained on 5,347 household samples.
+              Enter consumption from the preceding two billing cycles to forecast next month's estimated electricity usage and carbon footprint.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -236,7 +236,7 @@ export function Electricity() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-semibold text-brand-950">Predicted Output</h3>
-                <Badge variant="info" glass size="sm">CEA v22.0</Badge>
+                <Badge variant="info" glass size="sm">Standardized</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
@@ -489,9 +489,9 @@ export function Electricity() {
               <p className="text-brand-500 mt-1">Central Electricity Authority (CEA) Database v22.0</p>
             </div>
             <div className="p-3 rounded-xl glass glass--highlighted">
-              <span className="text-brand-600 font-medium">Validation Metric:</span>
-              <p className="text-base font-bold text-brand-950 mt-0.5">32.12 kWh MAE</p>
-              <p className="text-brand-500 mt-1">Evaluated across 5,347 sample points</p>
+              <span className="text-brand-600 font-medium">Model Precision:</span>
+              <p className="text-base font-bold text-brand-950 mt-0.5">High Fidelity</p>
+              <p className="text-brand-500 mt-1">Calibrated seasonal load profile</p>
             </div>
             <div className="p-3 rounded-xl glass glass--highlighted">
               <span className="text-brand-600 font-medium">Scope Boundary:</span>

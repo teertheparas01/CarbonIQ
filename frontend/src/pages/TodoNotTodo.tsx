@@ -70,25 +70,17 @@ export function TodoNotTodo() {
 
       <Card className="border-brand-200/50 bg-brand-100/30">
         <CardContent className="pt-6">
-          <h3 className="text-sm font-medium text-brand-950 mb-3">Key Reminders</h3>
-          <ul className="space-y-2 text-sm text-brand-600">
-            <li className="flex items-start gap-2">
-              <span className="text-brand-300 mt-0.5">•</span>
-              <span><strong>Model predicts electricity, not carbon.</strong> CO₂ is derived deterministically from predicted kWh.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-brand-300 mt-0.5">•</span>
-              <span><strong>Emission factor:</strong> 0.675 kg CO₂/kWh (CEA v22.0, FY 2025-26).</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-brand-300 mt-0.5">•</span>
-              <span><strong>Training data:</strong> Jan 2018 – Feb 2020. Test period: Nov 2019 – Feb 2020.</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-brand-300 mt-0.5">•</span>
-              <span><strong>Metrics:</strong> MAE = 32.12 kWh, RMSE = 186.39 kWh, R² = 0.1689.</span>
-            </li>
-          </ul>
+          <h3 className="text-sm font-medium text-brand-950 mb-2">Technical Documentation</h3>
+          <p className="text-sm text-brand-600 mb-3 leading-relaxed">
+            All detailed specifications regarding model architecture, training protocols, and emission factors are centralized in our documentation.
+          </p>
+          <a
+            href="/about"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-900 underline underline-offset-2 transition-colors"
+          >
+            <span>Explore Technical Specifications in About</span>
+            <span>↗</span>
+          </a>
         </CardContent>
       </Card>
     </div>

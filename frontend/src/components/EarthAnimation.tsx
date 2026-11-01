@@ -282,7 +282,7 @@ export function EarthAnimation() {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-white/85 font-normal max-w-xl mx-auto leading-relaxed [text-shadow:_0_1px_16px_rgba(0,0,0,0.85)]">
-              Precision machine learning models calibrated with regional grid emission standards (CEA v22.0) and seasonal consumption dynamics.
+              Empowering urban households with intelligent energy forecasting, carbon tracking, and localized decarbonization analytics.
             </p>
 
             {/* CTAs */}
