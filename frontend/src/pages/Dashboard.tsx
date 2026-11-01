@@ -425,8 +425,8 @@ export function Dashboard() {
           <GlassCard className="p-6" elevated>
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center gap-3 p-4 bg-brand-50 rounded-xl border border-brand-100">
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-100">
+                <div className="flex items-center gap-3 p-4 rounded-xl glass glass--highlighted">
+                  <div className="p-3 rounded-xl glass glass--highlighted text-emerald-600">
                     <ArrowUpRight className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
@@ -436,8 +436,8 @@ export function Dashboard() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 bg-brand-50 rounded-xl border border-brand-100">
-                  <div className="p-3 rounded-xl bg-amber-50 border border-amber-100">
+                <div className="flex items-center gap-3 p-4 rounded-xl glass glass--highlighted">
+                  <div className="p-3 rounded-xl glass glass--highlighted text-amber-600">
                     <Lightning className="w-6 h-6 text-amber-600" />
                   </div>
                   <div>
@@ -449,7 +449,7 @@ export function Dashboard() {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="p-4 bg-brand-50 rounded-xl border border-brand-100">
+                <div className="p-4 rounded-xl glass glass--highlighted">
                   <p className="text-xs font-medium text-brand-500 uppercase tracking-wider mb-3">Details</p>
                   <dl className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -508,9 +508,9 @@ export function Dashboard() {
           >
             Get Started
           </motion.h2>
-          <GlassCard className="p-8 text-center glass--strong border-2 border-dashed var(--glass-border-subtle)">
+          <GlassCard className="p-8 text-center glass--strong border-2 border-dashed border-white/40">
             <div className="max-w-md mx-auto">
-              <div className="mx-auto mb-4 p-4 rounded-2xl bg-brand-50 border border-brand-100 w-fit">
+              <div className="mx-auto mb-4 p-4 rounded-2xl glass glass--highlighted w-fit">
                 <Lightning className="w-10 h-10 text-brand-500" />
               </div>
               <h3 className="text-lg font-semibold text-brand-950 mb-2">No Forecast Yet</h3>

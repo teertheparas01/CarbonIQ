@@ -2,7 +2,7 @@ import { NAV_ITEMS, type NavItem } from '../../types/navigation';
 import { Link, useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import type { ReactElement } from 'react';
-import { motion, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { CaretDown } from '@phosphor-icons/react';
 import { useState, useRef, useEffect } from 'react';
 
@@ -104,40 +104,48 @@ function SettingsDropdown() {
   return (
     <div className="relative" ref={dropdownRef}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-brand-500 hover:bg-brand-50 hover:text-brand-900 transition-all duration-200"
+        type="button"
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs sm:text-sm font-medium text-brand-700 hover:bg-brand-100/60 hover:text-brand-950 transition-all duration-200 cursor-pointer"
         aria-expanded={isOpen}
         aria-haspopup="true"
+        aria-label="Settings"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
           <circle cx="12" cy="12" r="3" />
           <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l-.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l-.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
         </svg>
-        <CaretDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <CaretDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
-      {isOpen && (
-        <motion.div
-          className="absolute right-0 mt-2 w-48 glass glass--strong glass--highlighted rounded-xl py-1"
-          initial={reduce ? false : { opacity: 0, y: -8, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -8, scale: 0.95, transition: { duration: 0.01 } }}
-          role="menu"
-        >
-          {settingsItems.map((item) => (
-            <Link
-              key={item.label}
-              to={item.href}
-              onClick={() => {}}
-              className="glass-tab flex items-center gap-3 px-4 py-2 text-sm text-brand-600"
-              role="menuitem"
-            >
-              <span className="flex-shrink-0 text-brand-500">{item.icon}</span>
-              <span className="font-medium">{item.label}</span>
-            </Link>
-          ))}
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="absolute right-0 top-full mt-2 w-52 rounded-2xl bg-white/95 backdrop-blur-2xl border border-brand-100/80 shadow-[0_16px_40px_-8px_rgba(5,31,32,0.18),0_4px_12px_-2px_rgba(5,31,32,0.08)] py-1.5 z-50 pointer-events-auto"
+            initial={reduce ? false : { opacity: 0, y: -6, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.96, transition: { duration: reduce ? 0 : 0.12 } }}
+            transition={{ type: "spring", stiffness: 400, damping: 28 }}
+            role="menu"
+          >
+            <div className="px-3 py-1.5 border-b border-brand-100/50 mb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-brand-500">Settings</span>
+            </div>
+            {settingsItems.map((item) => (
+              <Link
+                key={item.label}
+                to={item.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-3 py-2 text-xs sm:text-sm font-medium text-brand-700 hover:text-brand-950 hover:bg-brand-50 rounded-xl mx-1.5 transition-colors duration-150"
+                role="menuitem"
+              >
+                <span className="flex-shrink-0 text-brand-500 p-1 rounded-lg bg-brand-50 border border-brand-100/60">{item.icon}</span>
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -148,42 +156,42 @@ export function TopNav() {
 
   return (
     <motion.header
-      className="fixed top-4 left-0 right-0 z-50 px-4 sm:px-6 pointer-events-none"
+      className="fixed top-3 left-0 right-0 z-50 px-3 sm:px-6 pointer-events-none"
       aria-label="Main navigation"
       initial={reduce ? false : { y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 300, damping: 30, duration: 0.5 }}
       style={{ willChange: "transform, opacity" }}
     >
-      <div className="relative flex items-center justify-between w-full max-w-7xl mx-auto">
-        {/* Brand - Left corner */}
-        <motion.div
-          className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-700/90 hover:bg-brand-700 text-white shadow-md backdrop-blur-md border border-brand-600/30 pointer-events-auto transition-colors"
-          initial={reduce ? false : { opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0, scale: [1, 1.02, 1] }}
-          transition={{
-            opacity: { delay: 0.15, type: "spring", stiffness: 300, damping: 30 },
-            x: { delay: 0.15, type: "spring", stiffness: 300, damping: 30 },
-            scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-          }}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4 text-emerald-300">
-            <path d="M12 2v20M12 2a10 10 0 0 1 0 20" />
-            <path d="M2 12h20M2 12a10 10 0 0 1 20 0" />
-          </svg>
-          <span className="text-sm font-semibold tracking-tight">CarbonIQ</span>
-        </motion.div>
-
-        {/* Nav Capsules - Perfectly Centered - Original design with backdrop blur to blur content behind */}
+      <div className="flex items-center justify-center w-full max-w-5xl mx-auto">
+        {/* Single Unified OnePlus Frosted Glass Capsule */}
         <motion.nav
-          className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-xl rounded-[9999px] border border-brand-100/70 shadow-[0_8px_30px_rgb(0,0,0,0.12)] pointer-events-auto"
+          className="oneplus-glass flex items-center justify-between gap-1.5 sm:gap-3 px-3 py-1.5 pointer-events-auto shadow-lg"
           aria-label="Main navigation"
           initial={reduce ? false : { opacity: 0, y: -20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 0.1, type: "spring", stiffness: 300, damping: 25 }}
         >
+          {/* Brand - Left */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 pl-1.5 pr-2 py-1 rounded-full text-brand-950 hover:opacity-85 transition-opacity shrink-0"
+          >
+            <div className="w-6 h-6 rounded-full bg-brand-700 flex items-center justify-center text-emerald-300 shadow-xs">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-3.5 h-3.5">
+                <path d="M12 2v20M12 2a10 10 0 0 1 0 20" />
+                <path d="M2 12h20M2 12a10 10 0 0 1 20 0" />
+              </svg>
+            </div>
+            <span className="text-sm font-bold tracking-tight hidden sm:inline">CarbonIQ</span>
+          </Link>
+
+          {/* Vertical divider */}
+          <div className="h-4 w-px bg-brand-200/70 hidden sm:block shrink-0" />
+
+          {/* Nav Links - Center */}
           <motion.ul
-            className="flex items-center justify-center gap-1"
+            className="relative z-10 flex items-center justify-center gap-0.5 sm:gap-1"
             role="list"
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -202,28 +210,31 @@ export function TopNav() {
                   <Link
                     to={item.path}
                     className={clsx(
-                      'flex items-center justify-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
+                      'flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 whitespace-nowrap',
                       isActive
-                        ? 'bg-brand-700 text-white shadow-[0_2px_8px_-2px_rgba(5,31,32,0.3)]'
-                        : 'text-brand-600 hover:bg-brand-50 hover:text-brand-950'
+                        ? 'bg-brand-700 text-white shadow-[0_2px_8px_-2px_rgba(5,31,32,0.35)]'
+                        : 'text-brand-700 hover:bg-brand-100/60 hover:text-brand-950'
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     <span className="flex-shrink-0" style={{ color: isActive ? 'inherit' : 'currentColor' }}>
                       {Icon}
                     </span>
-                    <MarqueeText text={item.label} className="hidden sm:inline" />
+                    <MarqueeText text={item.label} className="hidden md:inline" />
                   </Link>
                 </motion.li>
               );
             })}
           </motion.ul>
-        </motion.nav>
 
-        {/* Settings Dropdown - Right side */}
-        <div className="pointer-events-auto">
-          <SettingsDropdown />
-        </div>
+          {/* Vertical divider */}
+          <div className="h-4 w-px bg-brand-200/70 hidden sm:block shrink-0" />
+
+          {/* Settings Dropdown - Right */}
+          <div className="shrink-0">
+            <SettingsDropdown />
+          </div>
+        </motion.nav>
       </div>
     </motion.header>
   );

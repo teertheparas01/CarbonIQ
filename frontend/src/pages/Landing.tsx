@@ -26,10 +26,47 @@ const HOW_IT_WORKS = [
 ];
 
 const METRICS = [
-  { label: 'Validated Samples', value: '5,347' },
-  { label: 'Test MAE', value: '32.12 kWh' },
-  { label: 'Grid Emission Factor', value: '0.675' },
-  { label: 'Emission Factor Source', value: 'CEA v22.0' },
+  {
+    label: 'Validated Samples',
+    value: '5,347',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-emerald-600">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Test MAE',
+    value: '32.12 kWh',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-amber-600">
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Grid Emission Factor',
+    value: '0.675',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-sky-600">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Emission Factor Source',
+    value: 'CEA v22.0',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-emerald-600">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <polyline points="9 12 11 14 15 10" />
+      </svg>
+    ),
+  },
 ];
 
 export function Landing() {
@@ -37,16 +74,16 @@ export function Landing() {
 
   return (
     <motion.div
-      className="min-h-screen bg-brand-50"
+      className="min-h-screen relative"
       initial={reduce ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
       <EarthAnimation />
 
-      <main className="relative bg-brand-50">
-        <section id="features" className="py-20 md:py-28 bg-white border-y border-brand-100/50">
-          <div className="max-w-7xl mx-auto px-6">
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 space-y-20">
+        <section id="features" className="glass-card p-8 md:p-12">
+          <div className="max-w-7xl mx-auto">
             <motion.div
               className="text-center max-w-3xl mx-auto mb-16"
               initial={false}
@@ -54,8 +91,8 @@ export function Landing() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-sm font-medium text-brand-700 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Platform Architecture
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass glass--highlighted text-sm font-medium text-brand-700 mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Platform Architecture
               </span>
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-brand-950 mb-4">
                 Engineered for Measurement Precision
@@ -68,7 +105,7 @@ export function Landing() {
               {FEATURES.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="p-7 glass glass--highlighted glass--interactive flex flex-col justify-between"
+                  className="p-7 glass glass--highlighted glass-card--interactive rounded-2xl flex flex-col justify-between"
                   style={{ animationDelay: `${index * 80}ms` }}
                 >
                   <div>
@@ -102,11 +139,11 @@ export function Landing() {
           </div>
         </section>
 
-        <section id="how-it-works" className="py-20 md:py-28 bg-brand-50">
-          <div className="max-w-7xl mx-auto px-6">
+        <section id="how-it-works" className="glass-card p-8 md:p-12">
+          <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-sm font-medium text-brand-700 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Prediction Pipeline
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full glass glass--highlighted text-sm font-medium text-brand-700 mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Prediction Pipeline
               </span>
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-brand-950 mb-4">
                 From Raw Usage to Actionable Intelligence
@@ -116,61 +153,66 @@ export function Landing() {
               {HOW_IT_WORKS.map((step, index) => (
                 <div
                   key={step.step}
-                  className="p-8 relative glass glass--highlighted glass--interactive transition-all duration-300"
+                  className="p-8 glass glass--highlighted glass-card--interactive rounded-2xl transition-all duration-300 text-center"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-brand-700 flex items-center justify-center text-white font-bold text-lg">
-                    {step.step}
-                  </div>
-                  <div className="pt-6 text-center">
-                    <h3 className="text-xl font-semibold text-brand-950 mb-3">{step.title}</h3>
-                    <p className="text-brand-500 leading-relaxed">{step.description}</p>
-                  </div>
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-700/10 text-brand-700 mb-4 border border-brand-200/50">
+                    Step {step.step}
+                  </span>
+                  <h3 className="text-xl font-semibold text-brand-950 mb-3">{step.title}</h3>
+                  <p className="text-brand-600 leading-relaxed text-sm">{step.description}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="metrics" className="py-16 bg-brand-950">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid gap-8 md:grid-cols-4">
-              {METRICS.map((metric, index) => (
-                <div key={metric.label} className="text-center" style={{ animationDelay: `${index * 60}ms` }}>
-                  <div className="mx-auto mb-4 p-3 rounded-xl glass glass--strong glass--highlighted w-fit" style={{ borderColor: 'var(--glass-border-brand)' }}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 text-brand-300">
-                      <rect x="4" y="4" width="16" height="16" rx="2" />
-                      <rect x="9" y="9" width="6" height="6" />
-                    </svg>
-                  </div>
-                  <div className="glass-number glass-number--xl text-center mx-auto">
-                    <span className="glass-number__value text-white font-mono tracking-tight">{metric.value}</span>
-                  </div>
-                  <p className="mt-2 text-sm text-brand-400 font-medium">{metric.label}</p>
+        <section id="metrics" className="space-y-6">
+          <div className="text-center max-w-3xl mx-auto mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full glass glass--highlighted text-xs font-semibold text-brand-700 uppercase tracking-wider mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Verified Standards
+            </span>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-brand-950">
+              Empirical Benchmarks &amp; Grid Accuracy
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {METRICS.map((metric, index) => (
+              <div
+                key={metric.label}
+                className="glass-card glass-card--interactive glass--highlighted p-7 rounded-2xl flex flex-col items-center justify-between text-center group"
+                style={{ animationDelay: `${index * 60}ms` }}
+              >
+                <div className="mx-auto mb-4 p-3.5 rounded-xl glass glass--highlighted w-fit group-hover:scale-110 transition-transform">
+                  {metric.icon}
                 </div>
-              ))}
-            </div>
+                <p className="text-3xl sm:text-4xl font-extrabold text-brand-950 font-mono tracking-tight my-2">
+                  {metric.value}
+                </p>
+                <p className="mt-1 text-sm text-brand-600 font-medium">{metric.label}</p>
+              </div>
+            ))}
           </div>
         </section>
 
-        <section className="py-20 md:py-28 bg-white border-y border-brand-100/50">
-          <div className="max-w-7xl mx-auto px-6 text-center">
+        <section className="glass-card p-8 md:p-14 text-center">
+          <div className="max-w-3xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-brand-950 mb-4">
               Ready to Forecast Household Emissions?
             </h2>
-            <p className="text-lg text-brand-500 mb-8 max-w-xl mx-auto">
+            <p className="text-lg text-brand-600 mb-8 max-w-xl mx-auto">
               Enter your historical consumption metrics and generate an accurate next-month prediction calibrated with regional grid emission factors.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/forecast"
-                className="glass-btn glass-btn--primary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center"
+                className="glass-btn glass-btn--primary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center shadow-lg"
               >
                 Create Household Forecast
               </a>
               <a
                 href="/electricity"
-                className="glass-btn glass-btn--secondary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center"
+                className="glass-btn glass-btn--secondary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center shadow-sm"
               >
                 Explore Electrical Grid
               </a>
