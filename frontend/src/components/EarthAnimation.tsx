@@ -58,6 +58,7 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
   const { gl } = useThree();
   const earthGroupRef = useRef<THREE.Group>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
+  const clouds2Ref = useRef<THREE.Mesh>(null);
   const beaconRef = useRef<THREE.Mesh>(null);
 
   // Load lean textures: sharp 4K day map + lightweight clouds
@@ -108,6 +109,9 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
 
     if (cloudsRef.current) {
       cloudsRef.current.rotation.y += delta * 0.008;
+    }
+    if (clouds2Ref.current) {
+      clouds2Ref.current.rotation.y += delta * 0.005; // Slower rotation for depth
     }
 
     const targetZ = THREE.MathUtils.lerp(4.8, 3.85, easeP);
@@ -163,16 +167,29 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
         />
       </mesh>
 
-      {/* Cloud Layer */}
+      {/* Cloud Layer - Increased Density */}
       <mesh ref={cloudsRef} scale={[1.012, 1.012, 1.012]}>
+        <sphereGeometry args={[EARTH_RADIUS, 64, 64]} />
+        <meshStandardMaterial
+          map={cloudsMap}
+          transparent
+          opacity={0.7}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
+          color="#ffffff"
+        />
+      </mesh>
+
+      {/* Secondary Cloud Layer for Extra Density */}
+      <mesh ref={clouds2Ref} scale={[1.018, 1.018, 1.018]}>
         <sphereGeometry args={[EARTH_RADIUS, 48, 48]} />
         <meshStandardMaterial
           map={cloudsMap}
           transparent
-          opacity={0.4}
+          opacity={0.35}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
-          color="#ffffff"
+          color="#f0f4f8"
         />
       </mesh>
 
