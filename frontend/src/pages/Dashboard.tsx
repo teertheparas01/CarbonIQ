@@ -531,6 +531,21 @@ export function Dashboard() {
           </GlassCard>
         </motion.section>
       )}
+
+      {/* Footer Attribution */}
+      <footer className="pt-12 pb-6 text-center">
+        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-5 py-2.5 rounded-full glass glass--subtle text-xs sm:text-sm text-brand-700 border border-brand-200/50 shadow-xs">
+          <span>Designed &amp; Developed by</span>
+          <span className="font-semibold text-brand-950">Paras</span>
+          <span className="text-brand-300">•</span>
+          <a
+            href="mailto:teertheparas@gmail.com"
+            className="text-brand-700 hover:text-brand-950 underline underline-offset-2 transition-colors font-medium"
+          >
+            teertheparas@gmail.com
+          </a>
+        </div>
+      </footer>
     </motion.div>
   );
 }

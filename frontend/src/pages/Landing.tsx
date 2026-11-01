@@ -258,9 +258,12 @@ export function Landing() {
           </div>
           <div className="mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-sm text-brand-500">CarbonIQ • Urban Energy &amp; Decarbonization Intelligence Platform</p>
-            <div className="flex items-center gap-4 text-sm text-brand-500">
-              <span>Model: Seasonal Gradient Boosting</span>
-              <span>Factor: CEA v22.0 (0.675 kg CO₂/kWh)</span>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-brand-400">
+              <span>Designed &amp; Developed by <strong className="text-white font-medium">Paras</strong></span>
+              <span className="text-brand-700">•</span>
+              <a href="mailto:teertheparas@gmail.com" className="hover:text-emerald-300 transition-colors underline underline-offset-2">
+                teertheparas@gmail.com
+              </a>
             </div>
           </div>
         </div>
