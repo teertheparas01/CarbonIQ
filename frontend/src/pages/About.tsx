@@ -53,9 +53,6 @@ export function About() {
       <div className="relative overflow-hidden rounded-3xl p-8 sm:p-10 glass glass--strong border border-brand-100/70 shadow-lg">
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="flex flex-wrap items-center gap-2.5">
-            <Badge variant="success" size="sm">
-              College AIML Project
-            </Badge>
             <Badge variant="neutral" size="sm">
               Pune Survey Dataset
             </Badge>
@@ -345,8 +342,7 @@ export function About() {
           </div>
           <h3 className="text-xl sm:text-2xl font-bold text-brand-950">Designed &amp; Developed by Paras</h3>
           <p className="text-xs sm:text-sm text-brand-600 max-w-lg">
-            Built as a College AIML Project addressing urban household sustainability, empirical machine learning validation, and clean glassmorphism UI design.
-          </p>
+            </p>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
