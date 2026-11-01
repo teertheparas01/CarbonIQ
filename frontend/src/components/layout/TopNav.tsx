@@ -118,7 +118,7 @@ function SettingsDropdown() {
 
       {isOpen && (
         <motion.div
-          className="absolute right-0 mt-2 w-48 bg-white rounded-xl border border-brand-100/50 shadow-lg py-1"
+          className="absolute right-0 mt-2 w-48 glass glass--strong glass--highlighted rounded-xl py-1"
           initial={reduce ? false : { opacity: 0, y: -8, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -8, scale: 0.95, transition: { duration: 0.01 } }}
@@ -129,7 +129,7 @@ function SettingsDropdown() {
               key={item.label}
               to={item.href}
               onClick={() => {}}
-              className="flex items-center gap-3 px-4 py-2 text-sm text-brand-600 hover:bg-brand-50 hover:text-brand-900 transition-colors"
+              className="glass-tab flex items-center gap-3 px-4 py-2 text-sm text-brand-600"
               role="menuitem"
             >
               <span className="flex-shrink-0 text-brand-500">{item.icon}</span>
@@ -174,7 +174,7 @@ export function TopNav() {
           <span className="text-sm font-semibold tracking-tight">CarbonIQ</span>
         </motion.div>
 
-        {/* Nav Capsules - Perfectly Centered */}
+        {/* Nav Capsules - Perfectly Centered - Original design with backdrop blur to blur content behind */}
         <motion.nav
           className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-2 bg-white/95 backdrop-blur-xl rounded-[9999px] border border-brand-100/70 shadow-[0_8px_30px_rgb(0,0,0,0.12)] pointer-events-auto"
           aria-label="Main navigation"

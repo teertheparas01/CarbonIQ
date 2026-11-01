@@ -1,5 +1,6 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { clsx } from "clsx";
+import { useState } from "react";
 
 /* ========================================
    STAGGERED CARD ENTRANCE
@@ -111,9 +112,73 @@ export interface ElevatedCardProps {
   className?: string;
   elevated?: boolean;
   interactive?: boolean;
+  glass?: boolean;
 }
 
 export const ElevatedCard = ({
+  children,
+  className,
+  elevated = false,
+  interactive = false,
+  glass = true,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  elevated?: boolean;
+  interactive?: boolean;
+  glass?: boolean;
+}) => {
+  const reduce = useReducedMotion();
+
+  const baseVariants: Variants = {
+    initial: { y: 0, boxShadow: glass ? "var(--glass-shadow-base)" : "var(--shadow-card)" },
+    hover: {
+      y: reduce ? 0 : -4,
+      boxShadow: glass ? "var(--glass-shadow-lg)" : "var(--shadow-card-hover)",
+      transition: { type: "spring", stiffness: 300, damping: 25 },
+    },
+    tap: {
+      y: 0,
+      boxShadow: glass ? "var(--glass-shadow-base)" : "var(--shadow-card-active)",
+      transition: { duration: 0.05 },
+    },
+    elevated: {
+      y: 0,
+      boxShadow: glass ? "var(--glass-shadow-xl)" : "var(--shadow-elevated)",
+    },
+  };
+
+  const glassClass = glass
+    ? (elevated
+        ? 'glass-card glass-card--elevated'
+        : interactive
+          ? 'glass-card glass-card--interactive'
+          : 'glass-card')
+    : '';
+
+  return (
+    <motion.div
+      className={clsx(glassClass, className)}
+      initial={false}
+      animate={elevated ? "elevated" : "initial"}
+      whileHover={interactive ? "hover" : undefined}
+      whileTap={interactive ? "tap" : undefined}
+      variants={baseVariants}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+/* ========================================
+   APPLE-LIKE GLASS CARD ANIMATIONS
+   ======================================== */
+
+// Spring config for Apple-like feel
+const APPLE_SPRING = { type: "spring", stiffness: 280, damping: 22 } as const;
+
+// Glass card with Apple-like interactions
+export const GlassCard = ({
   children,
   className,
   elevated = false,
@@ -127,26 +192,37 @@ export const ElevatedCard = ({
   const reduce = useReducedMotion();
 
   const baseVariants: Variants = {
-    initial: { y: 0, boxShadow: "var(--shadow-card)" },
+    initial: { 
+      y: 0, 
+      boxShadow: "var(--glass-shadow-base)",
+      scale: 1,
+    },
     hover: {
-      y: reduce ? 0 : -4,
-      boxShadow: "var(--shadow-card-hover)",
-      transition: { type: "spring", stiffness: 300, damping: 25 },
+      y: reduce ? 0 : -6,
+      boxShadow: "var(--glass-shadow-xl)",
+      scale: 1.01,
+      transition: { type: "spring", stiffness: 250, damping: 22 },
     },
     tap: {
-      y: 0,
-      boxShadow: "var(--shadow-card-active)",
-      transition: { duration: 0.05 },
+      y: reduce ? 0 : -2,
+      scale: 0.985,
+      boxShadow: "var(--glass-shadow-lg)",
+      transition: { duration: 0.08, ease: [0.4, 0, 0.2, 1] },
     },
     elevated: {
       y: 0,
-      boxShadow: "var(--shadow-elevated)",
+      boxShadow: "var(--glass-shadow-xl)",
     },
   };
 
   return (
     <motion.div
-      className={clsx("bg-white/88 backdrop-blur-sm rounded-xl border border-brand-100/50 shadow-[var(--shadow-card)] transition-[box-shadow,transform,border-color,background-color] duration-200", elevated && "shadow-[var(--shadow-elevated)] border-brand-100/50", interactive && "hover:shadow-[var(--shadow-card-hover)] hover:-translate-y-0.5 hover:border-brand-300/50 cursor-pointer", className)}
+      className={clsx(
+        'glass-card',
+        elevated && 'glass-card--elevated',
+        interactive && 'glass-card--interactive',
+        className
+      )}
       initial={false}
       animate={elevated ? "elevated" : "initial"}
       whileHover={interactive ? "hover" : undefined}
@@ -154,6 +230,199 @@ export const ElevatedCard = ({
       variants={baseVariants}
     >
       {children}
+      {/* Glass highlight edge */}
+      <div className="glass-highlight-edge" aria-hidden="true" />
+    </motion.div>
+  );
+};
+
+// Apple-style button with ripple effect
+export const GlassButton = ({
+  children,
+  className,
+  variant = 'primary',
+  size = 'md',
+  loading = false,
+  disabled = false,
+  onClick,
+  ...props
+}: {
+  children: React.ReactNode;
+  className?: string;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+  disabled?: boolean;
+  onClick?: () => void;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const reduce = useReducedMotion();
+  const [ripple, setRipple] = useState<{ x: number; y: number } | null>(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!reduce) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setRipple({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      setTimeout(() => setRipple(null), 400);
+    }
+    onClick?.();
+  };
+
+  const variantClasses = {
+    primary: 'glass-btn glass-btn--primary',
+    secondary: 'glass-btn glass-btn--secondary',
+    ghost: 'glass-btn glass-btn--ghost',
+    danger: 'glass-btn glass-btn--danger',
+  };
+
+  const sizeClasses = {
+    sm: 'glass-btn--sm',
+    md: 'glass-btn--md',
+    lg: 'glass-btn--lg',
+  };
+
+  return (
+    <button
+      className={clsx(
+        'glass-button-apple',
+        variantClasses[variant],
+        sizeClasses[size],
+        className
+      )}
+      disabled={disabled || loading}
+      onClick={handleClick}
+      {...props}
+    >
+      {ripple && (
+        <motion.span
+          className="glass-ripple"
+          style={{
+            left: ripple.x,
+            top: ripple.y,
+          }}
+          initial={{ scale: 0, opacity: 0.4 }}
+          animate={{ scale: 4, opacity: 0 }}
+          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          aria-hidden="true"
+        />
+      )}
+      {loading ? (
+        <motion.span
+          className="glass-spinner"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+          style={{ width: 18, height: 18 }}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-full h-full">
+            <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
+            <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
+          </svg>
+        </motion.span>
+      ) : (
+        <span className="glass-button-content">{children}</span>
+      )}
+    </button>
+  );
+};
+
+// Apple-style number display with count animation
+export const GlassStat = ({
+  value,
+  label,
+  unit,
+  trend,
+  icon,
+  iconColor,
+  className,
+  animateValue = true,
+}: {
+  value: string | number;
+  label: string;
+  unit?: string;
+  trend?: { value: string; positive: boolean; label?: string };
+  icon?: React.ReactNode;
+  iconColor?: string;
+  className?: string;
+  animateValue?: boolean;
+}) => {
+  const reduce = useReducedMotion();
+  
+  return (
+    <motion.div
+      className={clsx('glass-stat glass-card--interactive', className)}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
+      whileHover={{ y: -4, scale: 1.01, transition: APPLE_SPRING }}
+      whileTap={{ scale: 0.99 }}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex-1 min-w-0">
+          {icon && (
+            <motion.div
+              className="mb-3 p-2.5 rounded-xl glass glass--highlighted"
+              style={{ borderColor: 'var(--glass-border-subtle)' }}
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
+            >
+              <span className="text-lg" style={{ color: iconColor }}>{icon}</span>
+            </motion.div>
+          )}
+          <motion.p
+            className="text-sm font-medium text-brand-500 uppercase tracking-wider mb-2"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            {label}
+          </motion.p>
+          <motion.div
+            className="flex items-baseline gap-1.5"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <motion.span
+              className="glass-stat__value"
+              initial={animateValue && !reduce ? { opacity: 0, scale: 0.5 } : { opacity: 1 }}
+              animate={animateValue && !reduce ? { opacity: 1, scale: 1 } : { opacity: 1 }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 200, damping: 18 }}
+            >
+              {value}
+              {unit && <span className="text-lg font-normal text-brand-500 ml-1">{unit}</span>}
+            </motion.span>
+          </motion.div>
+          {trend && (
+            <motion.div
+              className="glass-stat__trend mt-2"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+            >
+              {trend.positive ? (
+                <motion.svg className="w-3.5 h-3.5 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" initial={{ rotate: -90 }} animate={{ rotate: 0 }} transition={{ delay: 0.4, type: "spring", stiffness: 300, damping: 15 }}>
+                  <path d="M18 15l-6-6-6 6" />
+                </motion.svg>
+              ) : (
+                <motion.svg className="w-3.5 h-3.5 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" initial={{ rotate: 90 }} animate={{ rotate: 0 }} transition={{ delay: 0.4, type: "spring", stiffness: 300, damping: 15 }}>
+                  <path d="M6 9l6 6 6-6" />
+                </motion.svg>
+              )}
+              <motion.span
+                className={clsx('font-medium', trend.positive ? 'text-emerald-600' : 'text-rose-600')}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4, type: "spring", stiffness: 300, damping: 20 }}
+              >
+                {trend.value}
+              </motion.span>
+              {trend.label && (
+                <span className="text-brand-500">{trend.label}</span>
+              )}
+            </motion.div>
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

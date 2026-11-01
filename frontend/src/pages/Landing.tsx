@@ -68,11 +68,11 @@ export function Landing() {
               {FEATURES.map((feature, index) => (
                 <div
                   key={feature.title}
-                  className="p-7 bg-white rounded-2xl border border-brand-200/70 shadow-xs hover:shadow-card-hover transition-all duration-300 flex flex-col justify-between"
+                  className="p-7 glass glass--highlighted glass--interactive flex flex-col justify-between"
                   style={{ animationDelay: `${index * 80}ms` }}
                 >
                   <div>
-                    <div className="p-3 rounded-xl bg-brand-50 border border-brand-100/80 w-fit mb-5">
+                    <div className="p-3 rounded-xl glass glass--highlighted w-fit mb-5">
                       {index === 0 ? (
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-amber-600">
                           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -116,7 +116,7 @@ export function Landing() {
               {HOW_IT_WORKS.map((step, index) => (
                 <div
                   key={step.step}
-                  className="p-8 relative hover:shadow-lg transition-all duration-300 bg-white rounded-2xl border border-brand-100/50"
+                  className="p-8 relative glass glass--highlighted glass--interactive transition-all duration-300"
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-brand-700 flex items-center justify-center text-white font-bold text-lg">
@@ -137,13 +137,15 @@ export function Landing() {
             <div className="grid gap-8 md:grid-cols-4">
               {METRICS.map((metric, index) => (
                 <div key={metric.label} className="text-center" style={{ animationDelay: `${index * 60}ms` }}>
-                  <div className="mx-auto mb-4 p-3 rounded-xl bg-white/5 border border-white/10 w-fit">
+                  <div className="mx-auto mb-4 p-3 rounded-xl glass glass--strong glass--highlighted w-fit" style={{ borderColor: 'var(--glass-border-brand)' }}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 text-brand-300">
                       <rect x="4" y="4" width="16" height="16" rx="2" />
                       <rect x="9" y="9" width="6" height="6" />
                     </svg>
                   </div>
-                  <div className="text-3xl md:text-4xl font-semibold text-white font-mono tracking-tight">{metric.value}</div>
+                  <div className="glass-number glass-number--xl text-center mx-auto">
+                    <span className="glass-number__value text-white font-mono tracking-tight">{metric.value}</span>
+                  </div>
                   <p className="mt-2 text-sm text-brand-400 font-medium">{metric.label}</p>
                 </div>
               ))}
@@ -162,13 +164,13 @@ export function Landing() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/forecast"
-                className="px-8 py-3 bg-brand-300 text-brand-950 font-semibold rounded-full hover:bg-brand-400 transition-colors inline-block"
+                className="glass-btn glass-btn--primary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center"
               >
                 Create Household Forecast
               </a>
               <a
                 href="/electricity"
-                className="px-8 py-3 bg-white/10 text-brand-950 font-semibold rounded-full backdrop-blur-sm border border-brand-200 hover:bg-brand-50 transition-colors inline-block"
+                className="glass-btn glass-btn--secondary glass-btn--lg px-8 py-3 font-semibold rounded-full inline-flex items-center justify-center"
               >
                 Explore Electrical Grid
               </a>

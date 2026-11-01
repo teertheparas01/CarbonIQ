@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useForecast } from '../hooks';
 import { Card, CardContent, CardHeader } from '../components/ui';
-import { Input, Select, Button, Badge } from '../components/ui';
+import { Input, Select, Badge } from '../components/ui';
+import { GlassButton } from '../lib/animations';
 import { PowerGridIsland } from '../components/animations/PowerGridIsland';
 import {
   AreaChart,
@@ -146,12 +147,12 @@ export function Electricity() {
 
       {/* Forecast & Result Section */}
       <div className="grid gap-6 lg:grid-cols-2 items-start">
-        {/* Input Form Card */}
-        <Card className="border-brand-200/70 bg-white shadow-sm">
+        {/* Input Form Card - Glass */}
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-brand-950">Next-Month Consumption Forecast</h2>
-              <Badge variant="success">Gradient Boosting</Badge>
+              <Badge variant="success" glass>Gradient Boosting</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-4">
@@ -172,6 +173,7 @@ export function Electricity() {
                   onChange={handleChange}
                   error={errors.electricity_t_minus_2}
                   helperText="Consumption 2 months prior"
+                  glass
                 />
                 <Input
                   label="Electricity (t-1) [kWh]"
@@ -184,6 +186,7 @@ export function Electricity() {
                   onChange={handleChange}
                   error={errors.electricity_t_minus_1}
                   helperText="Consumption last month"
+                  glass
                 />
               </div>
 
@@ -196,15 +199,17 @@ export function Electricity() {
                 onChange={handleChange}
                 error={errors.target_month_num}
                 helperText="Month to predict"
+                glass
               />
 
               <div className="flex flex-wrap gap-3 pt-2">
-                <Button type="submit" loading={loading} className="w-full sm:w-auto" disabled={loading}>
+                <GlassButton type="submit" variant="primary" size="md" loading={loading} disabled={loading} className="w-full sm:w-auto">
                   {loading ? 'Predicting…' : 'Generate Forecast'}
-                </Button>
-                <Button
+                </GlassButton>
+                <GlassButton
                   type="button"
                   variant="secondary"
+                  size="md"
                   onClick={() => {
                     setFormData({ electricity_t_minus_2: '', electricity_t_minus_1: '', target_month_num: '' });
                     setErrors({});
@@ -213,11 +218,11 @@ export function Electricity() {
                   disabled={loading}
                 >
                   Clear
-                </Button>
+                </GlassButton>
               </div>
 
               {error && (
-                <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm" role="alert">
+                <div className="p-3 rounded-xl glass glass--highlighted border-red-400/50 bg-red-50/30 text-red-700 text-sm" role="alert">
                   {error}
                 </div>
               )}
@@ -225,27 +230,25 @@ export function Electricity() {
           </CardContent>
         </Card>
 
-        {/* Prediction Output Card */}
+        {/* Prediction Output Card - Glass */}
         {lastResult ? (
-          <Card className="border-brand-700/30 bg-white shadow-md">
+          <Card glass>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-semibold text-brand-950">Predicted Output</h3>
-                <span className="text-xs font-mono text-brand-800 font-semibold bg-brand-100 px-2.5 py-0.5 rounded-full">
-                  CEA v22.0
-                </span>
+                <Badge variant="info" glass size="sm">CEA v22.0</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="p-4 rounded-xl bg-brand-50 border border-brand-200/80 shadow-sm">
+                <div className="p-4 rounded-xl glass glass--highlighted">
                   <p className="text-xs text-brand-600 uppercase tracking-wider font-semibold">Predicted Usage</p>
                   <p className="mt-1 text-2xl font-bold text-brand-950 tracking-tight">
                     {lastResult.predicted_electricity_kwh.toFixed(1)}{' '}
                     <span className="text-sm font-normal text-brand-600">kWh</span>
                   </p>
                 </div>
-                <div className="p-4 rounded-xl bg-brand-50 border border-brand-200/80 shadow-sm">
+                <div className="p-4 rounded-xl glass glass--highlighted">
                   <p className="text-xs text-brand-600 uppercase tracking-wider font-semibold">Deterministic CO₂</p>
                   <p className="mt-1 text-2xl font-bold text-brand-700 tracking-tight">
                     {lastResult.predicted_co2_kg.toFixed(2)}{' '}
@@ -271,9 +274,9 @@ export function Electricity() {
             </CardContent>
           </Card>
         ) : (
-          <Card className="border-dashed border-brand-200 bg-white/60 flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
-            <div className="p-3 rounded-full bg-brand-100 text-brand-700 mb-3">
-              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <Card glass className="flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
+            <div className="p-3 rounded-full glass glass--highlighted mb-3">
+              <svg className="w-8 h-8 text-brand-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </div>
@@ -288,7 +291,7 @@ export function Electricity() {
       {/* Interactive Charts Section - Green & White Palette */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Seasonal Electricity Profile Chart */}
-        <Card className="bg-white border-brand-200/70 shadow-sm">
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -341,14 +344,14 @@ export function Electricity() {
         </Card>
 
         {/* End-Use Appliance Breakdown */}
-        <Card className="bg-white border-brand-200/70 shadow-sm">
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-semibold text-brand-950">Household Load by Appliance</h3>
                 <p className="text-xs text-brand-600">Average power distribution for Pune residences</p>
               </div>
-              <Badge variant="default">Distribution</Badge>
+              <Badge variant="default" glass>Distribution</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-2">
@@ -380,7 +383,7 @@ export function Electricity() {
       </div>
 
       {/* Interactive Pune MSEDCL Solar ROI & Decarbonization Calculator */}
-      <Card className="border-brand-200/80 bg-gradient-to-br from-white via-brand-50/20 to-emerald-50/30 shadow-sm overflow-hidden">
+      <Card glass className="glass--strong">
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
@@ -441,40 +444,32 @@ export function Electricity() {
               </p>
             </div>
 
-            {/* Simulation KPI Display */}
+            {/* Simulation KPI Display - Glass Numbers */}
             <div className="md:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Solar Offset</span>
-                <p className="mt-1 text-xl font-bold text-brand-950">
-                  <span id="calc-kwh">{(activeKwh * 0.65).toFixed(0)}</span>{' '}
-                  <span className="text-xs font-normal text-brand-500">kWh</span>
-                </p>
-                <span className="text-[10px] text-emerald-600 font-medium">Clean generation</span>
+              <div className="glass-number glass-number--lg text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500 block mb-1">Solar Offset</span>
+                <span className="glass-number__value text-xl" id="calc-kwh">{(activeKwh * 0.65).toFixed(0)}</span>
+                <span className="glass-number__unit">kWh</span>
+                <span className="glass-number__label">Clean generation</span>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Bill Savings</span>
-                <p className="mt-1 text-xl font-bold text-emerald-700">
-                  <span id="calc-inr">₹{(activeKwh * 0.65 * 8.45).toFixed(0)}</span>
-                </p>
-                <span className="text-[10px] text-brand-400">Monthly tariff cut</span>
+              <div className="glass-number glass-number--lg text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500 block mb-1">Bill Savings</span>
+                <span className="glass-number__value text-xl text-emerald-700" id="calc-inr">₹{(activeKwh * 0.65 * 8.45).toFixed(0)}</span>
+                <span className="glass-number__label">Monthly tariff cut</span>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">CO₂ Avoided</span>
-                <p className="mt-1 text-xl font-bold text-brand-950">
-                  <span id="calc-co2">{(activeKwh * 0.65 * 0.675).toFixed(1)}</span>{' '}
-                  <span className="text-xs font-normal text-brand-500">kg</span>
-                </p>
-                <span className="text-[10px] text-emerald-600 font-medium">CEA factor (0.675)</span>
+              <div className="glass-number glass-number--lg text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500 block mb-1">CO₂ Avoided</span>
+                <span className="glass-number__value text-xl" id="calc-co2">{(activeKwh * 0.65 * 0.675).toFixed(1)}</span>
+                <span className="glass-number__unit">kg</span>
+                <span className="glass-number__label">CEA factor (0.675)</span>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-white border border-brand-100 shadow-xs text-center">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500">Tree Equiv.</span>
-                <p className="mt-1 text-xl font-bold text-brand-950">
-                  <span id="calc-tree">{((activeKwh * 0.65 * 0.675) / 1.75).toFixed(1)}</span>
-                </p>
-                <span className="text-[10px] text-emerald-600 font-medium">Mature trees/mo</span>
+              <div className="glass-number glass-number--lg text-center">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-brand-500 block mb-1">Tree Equiv.</span>
+                <span className="glass-number__value text-xl" id="calc-tree">{((activeKwh * 0.65 * 0.675) / 1.75).toFixed(1)}</span>
+                <span className="glass-number__label">Mature trees/mo</span>
               </div>
             </div>
           </div>
@@ -482,23 +477,23 @@ export function Electricity() {
       </Card>
 
       {/* Grid Emission Factor & Notes */}
-      <Card className="border-brand-200/60 bg-white shadow-sm">
+      <Card glass>
         <CardHeader>
           <h3 className="text-sm font-semibold text-brand-950">Grid Emission Standards &amp; Attribution</h3>
         </CardHeader>
         <CardContent className="pt-3">
           <div className="grid gap-4 sm:grid-cols-3 text-xs">
-            <div className="p-3 rounded-lg bg-brand-50 border border-brand-100">
+            <div className="p-3 rounded-xl glass glass--highlighted">
               <span className="text-brand-600 font-medium">Emission Factor:</span>
               <p className="text-base font-bold text-brand-950 mt-0.5">0.675 kg CO₂/kWh</p>
               <p className="text-brand-500 mt-1">Central Electricity Authority (CEA) Database v22.0</p>
             </div>
-            <div className="p-3 rounded-lg bg-brand-50 border border-brand-100">
+            <div className="p-3 rounded-xl glass glass--highlighted">
               <span className="text-brand-600 font-medium">Validation Metric:</span>
               <p className="text-base font-bold text-brand-950 mt-0.5">32.12 kWh MAE</p>
               <p className="text-brand-500 mt-1">Evaluated across 5,347 sample points</p>
             </div>
-            <div className="p-3 rounded-lg bg-brand-50 border border-brand-100">
+            <div className="p-3 rounded-xl glass glass--highlighted">
               <span className="text-brand-600 font-medium">Scope Boundary:</span>
               <p className="text-base font-bold text-brand-950 mt-0.5">Scope 2 Indirect</p>
               <p className="text-brand-500 mt-1">Restricted to grid electricity; not combined with fuel</p>

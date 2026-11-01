@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { Card, CardContent, CardHeader } from '../components/ui';
-import { Input, Button, Badge } from '../components/ui';
+import { Input, Badge } from '../components/ui';
+import { GlassButton } from '../lib/animations';
 import { ThermalEarthGlobe } from '../components/animations/ThermalEarthGlobe';
 import {
   BarChart,
@@ -109,11 +110,11 @@ export function LPG() {
       {/* LPG Forecast & Result Section */}
       <div className="grid gap-6 lg:grid-cols-2 items-start">
         {/* Input Form Card */}
-        <Card className="border-brand-200/70 bg-white shadow-sm">
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <h2 className="text-base font-semibold text-brand-950">Next-Month Cylinder Forecast</h2>
-              <Badge variant="success">Weighted Average</Badge>
+              <Badge variant="success" glass>Weighted Average</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-4">
@@ -134,6 +135,7 @@ export function LPG() {
                   onChange={handleChange}
                   error={errors.cyl_t_minus_2}
                   helperText="Cylinders 2 months ago"
+                  glass
                 />
                 <Input
                   label="Cylinders (t-1)"
@@ -146,13 +148,14 @@ export function LPG() {
                   onChange={handleChange}
                   error={errors.cyl_t_minus_1}
                   helperText="Cylinders last month"
+                  glass
                 />
               </div>
               <div className="flex flex-wrap gap-3 pt-2">
-                <Button type="submit" className="w-full sm:w-auto">
+                <GlassButton type="submit" className="w-full sm:w-auto">
                   Estimate CO₂
-                </Button>
-                <Button
+                </GlassButton>
+                <GlassButton
                   type="button"
                   variant="secondary"
                   onClick={() => {
@@ -162,7 +165,7 @@ export function LPG() {
                   }}
                 >
                   Clear
-                </Button>
+                </GlassButton>
               </div>
             </form>
           </CardContent>
@@ -170,18 +173,16 @@ export function LPG() {
 
         {/* Prediction Output Card */}
         {result ? (
-          <Card className="border-orange-200 bg-white shadow-md">
+          <Card glass>
             <CardHeader>
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-semibold text-brand-950">Predicted Output</h3>
-                <span className="text-xs font-mono text-amber-700 font-semibold bg-amber-50 px-2.5 py-0.5 rounded-full">
-                  IPCC AR5
-                </span>
+                <Badge variant="warning" glass size="sm">IPCC AR5</Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="grid gap-4 sm:grid-cols-2">
-                <div className="p-4 rounded-xl bg-amber-50 border border-amber-200/80 shadow-sm">
+                <div className="p-4 rounded-xl glass glass--highlighted bg-amber-50/30 border-amber-200/50">
                   <p className="text-xs text-amber-700 uppercase tracking-wider font-semibold">Predicted Cylinders</p>
                   <p className="mt-1 text-2xl font-bold text-brand-950 tracking-tight">
                     {result.predicted_cylinders}{' '}
@@ -189,7 +190,7 @@ export function LPG() {
                   </p>
                   <p className="mt-1 text-xs text-amber-600">{result.predicted_kg_lpg} kg LPG</p>
                 </div>
-                <div className="p-4 rounded-xl bg-brand-50 border border-brand-200/80 shadow-sm">
+                <div className="p-4 rounded-xl glass glass--highlighted">
                   <p className="text-xs text-brand-600 uppercase tracking-wider font-semibold">CO₂ Estimate</p>
                   <p className="mt-1 text-2xl font-bold text-brand-700 tracking-tight">
                     {result.predicted_co2_kg}{' '}
@@ -214,9 +215,9 @@ export function LPG() {
             </CardContent>
           </Card>
         ) : (
-          <Card className="border-dashed border-amber-200 bg-white/60 flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
-            <div className="p-3 rounded-full bg-amber-50 text-amber-600 mb-3">
-              <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <Card glass className="flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
+            <div className="p-3 rounded-full glass glass--highlighted mb-3">
+              <svg className="w-8 h-8 text-amber-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
               </svg>
             </div>
@@ -230,22 +231,22 @@ export function LPG() {
 
       {/* Status Overview Cards */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <span className="text-xs font-semibold text-brand-500 uppercase tracking-wider">LPG Energy Density</span>
           <p className="mt-1.5 text-2xl font-bold text-brand-950">46.1 MJ/kg</p>
           <p className="mt-1 text-xs text-brand-400">High calorific value liquefied petroleum gas</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <span className="text-xs font-semibold text-brand-500 uppercase tracking-wider">Standard Cylinder Net</span>
           <p className="mt-1.5 text-2xl font-bold text-amber-600">14.2 kg</p>
           <p className="mt-1 text-xs text-brand-400">Domestic subsidized &amp; commercial refill standard</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-brand-500 uppercase tracking-wider">Emission Boundary</span>
-            <Badge variant="success">Scope 1 Direct</Badge>
+            <Badge variant="success" glass>Scope 1 Direct</Badge>
           </div>
           <p className="mt-1.5 text-lg font-bold text-brand-900">Thermal Combustion</p>
           <p className="mt-1 text-xs text-brand-400">Calorific heat transfer &amp; induction transition pathways</p>
@@ -255,7 +256,7 @@ export function LPG() {
       {/* Charts Section */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Cooking Fuel Efficiency Chart */}
-        <Card>
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -293,14 +294,14 @@ export function LPG() {
         </Card>
 
         {/* Monthly Household Cylinder Consumption */}
-        <Card>
+        <Card glass>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-semibold text-brand-950">Consumption by Family Size</h3>
                 <p className="text-xs text-brand-500">Monthly kg and days per standard 14.2 kg cylinder</p>
               </div>
-              <Badge variant="default">Survey Benchmarks</Badge>
+              <Badge variant="default" glass>Survey Benchmarks</Badge>
             </div>
           </CardHeader>
           <CardContent className="pt-2">
@@ -341,7 +342,7 @@ export function LPG() {
       </div>
 
       {/* Interactive Induction Switch & Thermal Savings Simulator */}
-      <Card className="border-amber-200/80 bg-gradient-to-br from-white via-orange-50/20 to-amber-50/30 shadow-sm overflow-hidden">
+      <Card glass className="glass--strong">
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
@@ -351,7 +352,7 @@ export function LPG() {
               </div>
               <h3 className="text-base font-semibold text-brand-950">LPG to Clean Induction Cooking Calculator</h3>
             </div>
-            <Badge variant="warning">Clean Cooking Transition</Badge>
+            <Badge variant="warning" glass>Clean Cooking Transition</Badge>
           </div>
         </CardHeader>
         <CardContent className="pt-2 space-y-6">
@@ -452,7 +453,7 @@ export function LPG() {
       </Card>
 
       {/* Dataset & Methodology Transparency Card */}
-      <Card className="border-brand-200/60 bg-brand-50/40">
+      <Card glass>
         <CardHeader>
           <h3 className="text-sm font-semibold text-brand-950">Methodology &amp; Survey Scope</h3>
         </CardHeader>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useForecast } from '../hooks';
 import { Card, CardContent, CardHeader } from '../components/ui';
-import { Input, Select, Button, Badge } from '../components/ui';
+import { Input, Select, Badge } from '../components/ui';
+import { GlassButton } from '../lib/animations';
 
 const MONTH_OPTIONS: { value: number; label: string }[] = [
   { value: 1, label: 'January' },
@@ -255,15 +256,11 @@ export function Forecast() {
           Predict next-month household energy demand and calculate deterministic carbon footprints.
         </p>
 
-        {/* Tab Switcher */}
-        <div className="flex gap-2 mt-6 p-1 bg-brand-100/60 rounded-xl w-fit border border-brand-200/60">
+        {/* Tab Switcher - Glass Tabs */}
+        <div className="glass-tabs mt-6">
           <button
             onClick={() => setActiveTab('electricity')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-              activeTab === 'electricity'
-                ? 'bg-brand-700 text-white shadow-sm'
-                : 'text-brand-700 hover:text-brand-950 hover:bg-brand-50'
-            }`}
+            className={`glass-tab ${activeTab === 'electricity' ? 'glass-tab--active' : ''}`}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -272,11 +269,7 @@ export function Forecast() {
           </button>
           <button
             onClick={() => setActiveTab('lpg')}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-              activeTab === 'lpg'
-                ? 'bg-brand-700 text-white shadow-sm'
-                : 'text-brand-700 hover:text-brand-950 hover:bg-brand-50'
-            }`}
+            className={`glass-tab ${activeTab === 'lpg' ? 'glass-tab--active' : ''}`}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
               <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
@@ -286,14 +279,16 @@ export function Forecast() {
         </div>
       </header>
 
-      {/* Info Card Dynamic to Selected Tab */}
-      <Card className="border-brand-300/30 bg-brand-100/30">
+      {/* Info Card Dynamic to Selected Tab - Glass Card */}
+      <Card glass className="glass-card--interactive">
         <CardContent className="pt-4 pb-4">
           <div className="flex items-start gap-3">
-            <svg className="flex-shrink-0 mt-0.5 w-5 h-5 text-brand-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4M12 8h.01" />
-            </svg>
+            <div className="flex-shrink-0 mt-0.5 p-2 rounded-xl glass glass--highlighted">
+              <svg className="w-5 h-5 text-brand-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4M12 8h.01" />
+              </svg>
+            </div>
             {activeTab === 'electricity' ? (
               <div>
                 <p className="text-sm font-medium text-brand-950">Electricity Pipeline</p>
@@ -318,11 +313,11 @@ export function Forecast() {
           {/* TAB 1: Electricity Form */}
           {activeTab === 'electricity' && (
             <>
-              <Card>
+              <Card glass>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-brand-950">Electricity Forecast</h3>
-                    <Badge variant="success">Gradient Boosting</Badge>
+                    <Badge variant="success" glass>Gradient Boosting</Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -339,6 +334,7 @@ export function Forecast() {
                         onChange={handleChange}
                         error={errors.electricity_t_minus_2}
                         helperText="Consumption two months ago"
+                        glass
                       />
                       <Input
                         label="Electricity (t-1) [kWh]"
@@ -351,6 +347,7 @@ export function Forecast() {
                         onChange={handleChange}
                         error={errors.electricity_t_minus_1}
                         helperText="Consumption last month"
+                        glass
                       />
                     </div>
 
@@ -363,23 +360,24 @@ export function Forecast() {
                       onChange={handleChange}
                       error={errors.target_month_num}
                       helperText="Month to forecast"
+                      glass
                     />
 
                     <div className="flex flex-wrap gap-3 pt-2">
-                      <Button type="submit" loading={loading} className="w-full sm:w-auto" disabled={loading}>
+                      <GlassButton type="submit" variant="primary" size="md" loading={loading} disabled={loading} className="w-full sm:w-auto">
                         {loading ? 'Predicting…' : 'Predict'}
-                      </Button>
-                      <Button type="button" variant="secondary" onClick={() => {
+                      </GlassButton>
+                      <GlassButton type="button" variant="secondary" size="md" onClick={() => {
                         setFormData({ electricity_t_minus_2: '', electricity_t_minus_1: '', target_month_num: '' });
                         setErrors({});
                         clearError();
                       }} disabled={loading}>
                         Clear
-                      </Button>
+                      </GlassButton>
                     </div>
 
                     {error && (
-                      <div className="p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm" role="alert">
+                      <div className="p-3 rounded-xl glass glass--highlighted border-red-400/50 bg-red-50/30 text-red-700 text-sm" role="alert">
                         {error}
                       </div>
                     )}
@@ -387,26 +385,24 @@ export function Forecast() {
                 </CardContent>
               </Card>
 
-              {/* Electricity Latest Result */}
+              {/* Electricity Latest Result - Glass Card */}
               {lastResult && (
-                <Card>
+                <Card glass>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-brand-950">Electricity Prediction Result</h3>
-                      <span className="text-xs font-mono text-brand-800 font-semibold bg-brand-100 px-2.5 py-0.5 rounded-full">
-                        CEA v22.0
-                      </span>
+                      <Badge variant="info" glass size="sm">CEA v22.0</Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-5">
                     <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="p-4 rounded-lg bg-brand-100/50 border border-brand-200/50">
+                      <div className="p-4 rounded-xl glass glass--highlighted">
                         <p className="text-sm text-brand-500">Predicted Electricity</p>
                         <p className="mt-1 text-2xl font-semibold text-brand-950 tracking-tight">
                           {lastResult.predicted_electricity_kwh.toFixed(2)} kWh
                         </p>
                       </div>
-                      <div className="p-4 rounded-lg bg-brand-100/50 border border-brand-200/50">
+                      <div className="p-4 rounded-xl glass glass--highlighted">
                         <p className="text-sm text-brand-500">Predicted CO₂</p>
                         <p className="mt-1 text-2xl font-semibold text-brand-950 tracking-tight">
                           {lastResult.predicted_co2_kg.toFixed(3)} kg CO₂
@@ -443,11 +439,11 @@ export function Forecast() {
           {/* TAB 2: LPG Form */}
           {activeTab === 'lpg' && (
             <>
-              <Card>
+              <Card glass>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-brand-950">LPG Thermal Cylinder Forecast</h3>
-                    <Badge variant="success">Weighted Moving Avg</Badge>
+                    <Badge variant="success" glass>Weighted Moving Avg</Badge>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -467,6 +463,7 @@ export function Forecast() {
                         onChange={handleLpgChange}
                         error={lpgErrors.cyl_t_minus_2}
                         helperText="Cylinders consumed 2 months ago"
+                        glass
                       />
                       <Input
                         label="Cylinders (t-1)"
@@ -479,16 +476,18 @@ export function Forecast() {
                         onChange={handleLpgChange}
                         error={lpgErrors.cyl_t_minus_1}
                         helperText="Cylinders consumed last month"
+                        glass
                       />
                     </div>
 
                     <div className="flex flex-wrap gap-3 pt-2">
-                      <Button type="submit" className="w-full sm:w-auto">
+                      <GlassButton type="submit" variant="primary" size="md" className="w-full sm:w-auto">
                         Estimate LPG CO₂
-                      </Button>
-                      <Button
+                      </GlassButton>
+                      <GlassButton
                         type="button"
                         variant="secondary"
+                        size="md"
                         onClick={() => {
                           setLpgFormData({ cyl_t_minus_2: '', cyl_t_minus_1: '' });
                           setLpgErrors({});
@@ -496,26 +495,24 @@ export function Forecast() {
                         }}
                       >
                         Clear
-                      </Button>
+                      </GlassButton>
                     </div>
                   </form>
                 </CardContent>
               </Card>
 
-              {/* LPG Latest Result */}
+              {/* LPG Latest Result - Glass Card */}
               {lpgResult && (
-                <Card>
+                <Card glass>
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-medium text-brand-950">LPG Prediction Result</h3>
-                      <span className="text-xs font-mono text-amber-800 font-semibold bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
-                        IPCC AR5
-                      </span>
+                      <Badge variant="warning" glass size="sm">IPCC AR5</Badge>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-5">
                     <div className="grid gap-4 sm:grid-cols-2">
-                      <div className="p-4 rounded-lg bg-amber-50/70 border border-amber-200/60">
+                      <div className="p-4 rounded-xl glass glass--highlighted bg-amber-50/30 border-amber-200/50">
                         <p className="text-sm text-amber-800 font-medium">Predicted Cylinders</p>
                         <p className="mt-1 text-2xl font-bold text-brand-950 tracking-tight">
                           {lpgResult.predicted_cylinders}{' '}
@@ -523,7 +520,7 @@ export function Forecast() {
                         </p>
                         <p className="text-xs text-amber-700 mt-1">{lpgResult.predicted_kg_lpg} kg LPG</p>
                       </div>
-                      <div className="p-4 rounded-lg bg-brand-100/50 border border-brand-200/50">
+                      <div className="p-4 rounded-xl glass glass--highlighted">
                         <p className="text-sm text-brand-600 font-medium">Deterministic CO₂</p>
                         <p className="mt-1 text-2xl font-bold text-brand-700 tracking-tight">
                           {lpgResult.predicted_co2_kg}{' '}
@@ -554,39 +551,41 @@ export function Forecast() {
         </div>
 
         <div className="space-y-6">
-          {/* History Column */}
-          <Card>
+          {/* History Column - Glass Card */}
+          <Card glass>
             <CardHeader className="flex flex-row items-center justify-between">
               <h3 className="text-sm font-medium text-brand-950">Prediction History</h3>
               {history.length > 0 && (
-                <Button variant="ghost" size="sm" onClick={() => {
+                <GlassButton variant="ghost" size="sm" onClick={() => {
                   if (confirm('Clear all prediction history?')) {
                     setHistory([]);
                     localStorage.removeItem(STORAGE_KEY);
                   }
                 }}>
                   Clear All
-                </Button>
+                </GlassButton>
               )}
             </CardHeader>
             <CardContent className="pt-0">
               {history.length === 0 ? (
                 <div className="py-10 text-center">
-                  <svg className="mx-auto mb-3 w-10 h-10 text-brand-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                  </svg>
+                  <div className="mx-auto mb-3 p-3 rounded-2xl glass glass--highlighted w-fit">
+                    <svg className="w-10 h-10 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                  </div>
                   <p className="text-sm text-brand-500">No predictions yet</p>
                   <p className="mt-1 text-xs text-brand-400">Make your first prediction to see history here.</p>
                 </div>
               ) : (
                 <div className="space-y-2.5 max-h-[600px] overflow-y-auto pr-1" role="list">
                   {history.map((entry) => (
-                    <article key={entry.id} className="p-3.5 rounded-xl bg-brand-50/70 border border-brand-200/60 text-xs">
+                    <article key={entry.id} className="p-3.5 rounded-xl glass glass--highlighted text-xs">
                       <div className="flex items-center justify-between gap-2 mb-2">
                         <time className="text-[11px] text-brand-500 font-mono" dateTime={entry.timestamp}>
                           {formatTimestamp(entry.timestamp)}
                         </time>
-                        <Badge variant={entry.type === 'lpg' ? 'warning' : 'success'} size="sm">
+                        <Badge variant={entry.type === 'lpg' ? 'warning' : 'success'} size="sm" glass>
                           {entry.type === 'lpg' ? 'LPG' : getMonthLabel(entry.input.target_month_num) || 'Electricity'}
                         </Badge>
                       </div>

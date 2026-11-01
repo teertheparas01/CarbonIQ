@@ -4,17 +4,27 @@ import { clsx } from 'clsx';
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   padded?: boolean;
   hover?: boolean;
+  glass?: boolean;
+  elevated?: boolean;
 }
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, padded, hover, children, ...props }, ref) => {
+  ({ className, padded, hover, glass = true, elevated, children, ...props }, ref) => {
+    const glassStyles = glass 
+      ? (elevated 
+          ? 'glass-card glass-card--elevated' 
+          : hover 
+            ? 'glass-card glass-card--interactive' 
+            : 'glass-card')
+      : '';
+
     return (
       <div
         ref={ref}
         className={clsx(
-          'bg-white rounded-2xl border border-brand-200/70 shadow-xs transition-all duration-200',
+          'rounded-2xl transition-all duration-200',
+          glassStyles,
           padded && 'p-6',
-          hover && 'hover:shadow-card-hover hover:border-brand-300',
           className
         )}
         {...props}
@@ -31,7 +41,7 @@ export interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={clsx('px-6 py-4.5 border-b border-brand-100/70 rounded-t-2xl', className)} {...props}>
+    <div ref={ref} className={clsx('glass-card__header rounded-t-2xl', className)} {...props}>
       {children}
     </div>
   )
@@ -43,7 +53,7 @@ export interface CardContentProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={clsx('p-6', className)} {...props}>
+    <div ref={ref} className={clsx('glass-card__content', className)} {...props}>
       {children}
     </div>
   )
@@ -55,7 +65,7 @@ export interface CardFooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={clsx('px-6 py-4 border-t border-brand-100/70 bg-brand-50/40 rounded-b-2xl', className)} {...props}>
+    <div ref={ref} className={clsx('glass-card__footer rounded-b-2xl', className)} {...props}>
       {children}
     </div>
   )

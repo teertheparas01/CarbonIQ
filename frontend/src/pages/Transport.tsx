@@ -191,19 +191,19 @@ export function Transport() {
 
       {/* KPI Cards */}
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">Two-Wheeler Penetration</span>
           <p className="mt-1.5 text-2xl font-bold text-brand-950">74% of Households</p>
           <p className="mt-1 text-xs text-brand-500">Pune holds one of India&apos;s highest 2W-per-capita ratios</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">Public Transit Efficiency</span>
           <p className="mt-1.5 text-2xl font-bold text-brand-700">28 g CO₂ / pass-km</p>
           <p className="mt-1 text-xs text-brand-500">PMPML e-Buses &amp; Pune Metro operational factor</p>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-brand-200/70 shadow-sm">
+        <div className="p-5 rounded-2xl glass glass--highlighted">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-brand-600 uppercase tracking-wider">Mobility Analytics</span>
             <Badge variant="default">Modal Split</Badge>
@@ -216,7 +216,7 @@ export function Transport() {
       {/* Charts Section */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Transit Emission Intensity Chart */}
-        <Card className="bg-white border-brand-200/70 shadow-sm">
+        <Card className="glass">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -254,7 +254,7 @@ export function Transport() {
         </Card>
 
         {/* Pune Household Vehicle Ownership */}
-        <Card className="bg-white border-brand-200/70 shadow-sm">
+        <Card className="glass">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -293,7 +293,7 @@ export function Transport() {
       </div>
 
       {/* Methodology & Safety Warning Card */}
-      <Card className="border-brand-200/60 bg-brand-50/40">
+      <Card className="glass">
         <CardHeader>
           <h3 className="text-sm font-semibold text-brand-950">Attribution &amp; Integrity Standards</h3>
         </CardHeader>

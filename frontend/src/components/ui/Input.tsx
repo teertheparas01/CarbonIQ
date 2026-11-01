@@ -5,11 +5,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   helperText?: string;
+  glass?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, helperText, id, ...props }, ref) => {
+  ({ className, label, error, helperText, id, glass = true, ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
+
+    const inputStyles = glass
+      ? 'glass-input'
+      : 'w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-all duration-150 shadow-xs placeholder:text-brand-300/80 font-medium text-brand-950 focus:outline-none focus:ring-2 focus:ring-brand-700/20 focus:border-brand-700 disabled:bg-brand-50 disabled:cursor-not-allowed';
 
     return (
       <div className="w-full">
@@ -25,13 +30,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={clsx(
-            'w-full px-3.5 py-2.5 text-sm bg-white border rounded-xl transition-all duration-150 shadow-xs',
-            'placeholder:text-brand-300/80 font-medium text-brand-950',
-            'focus:outline-none focus:ring-2 focus:ring-brand-700/20 focus:border-brand-700',
-            'disabled:bg-brand-50 disabled:cursor-not-allowed',
+            inputStyles,
             error
               ? 'border-red-400 focus:ring-red-200'
-              : 'border-brand-200/80 hover:border-brand-300',
+              : glass
+                ? ''
+                : 'border-brand-200/80 hover:border-brand-300',
             className
           )}
           aria-invalid={error ? 'true' : 'false'}

@@ -9,18 +9,18 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading, disabled, children, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-700/30 focus-visible:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 select-none';
-
+    const baseStyles = 'glass-btn inline-flex items-center justify-center font-medium transition-all';
+    
     const variantStyles = {
-      primary: 'bg-brand-700 text-white hover:bg-brand-800 shadow-sm hover:shadow',
-      secondary: 'bg-white text-brand-900 hover:bg-brand-50 active:bg-brand-100 border border-brand-200/80 shadow-xs',
-      ghost: 'text-brand-700 hover:bg-brand-100/60 active:bg-brand-100',
+      primary: 'glass-btn--primary',
+      secondary: 'glass-btn--secondary',
+      ghost: 'glass-btn--ghost',
     };
 
     const sizeStyles = {
-      sm: 'px-3.5 py-1.5 text-xs gap-1.5',
-      md: 'px-4.5 py-2.5 text-sm gap-2',
-      lg: 'px-6 py-3 text-base gap-2.5',
+      sm: 'glass-btn--sm px-3.5 py-1.5 text-xs gap-1.5',
+      md: 'glass-btn--md px-4.5 py-2.5 text-sm gap-2',
+      lg: 'glass-btn--lg px-6 py-3 text-base gap-2.5',
     };
 
     return (
