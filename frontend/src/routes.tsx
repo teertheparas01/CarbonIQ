@@ -3,11 +3,7 @@ import { Layout } from './components/layout';
 import {
   Dashboard,
   Electricity,
-  LPG,
-  Transport,
   Forecast,
-  TodoNotTodo,
-  Settings,
   Landing,
   About,
 } from './pages';
@@ -20,11 +16,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Landing /> },
       { path: 'dashboard', element: <Dashboard /> },
       { path: 'electricity', element: <Electricity /> },
-      { path: 'lpg', element: <LPG /> },
-      { path: 'transport', element: <Transport /> },
       { path: 'forecast', element: <Forecast /> },
-      { path: 'todo-not-todo', element: <TodoNotTodo /> },
-      { path: 'settings', element: <Settings /> },
       { path: 'about', element: <About /> },
     ],
   },

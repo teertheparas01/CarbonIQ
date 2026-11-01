@@ -196,4 +196,6 @@ The emission factor is **not applied** to LPG, water, food, or transport. It is 
 
 ## License
 
-College project — no license specified.
+MIT License — Copyright (c) 2026 Paras Tirthe
+
+See [LICENSE](LICENSE) for details.

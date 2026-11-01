@@ -61,8 +61,8 @@ app.add_middleware(
 
 
 class PredictionRequest(BaseModel):
-    electricity_t_minus_2: float = Field(ge=0, allow_inf_nan=False)
-    electricity_t_minus_1: float = Field(ge=0, allow_inf_nan=False)
+    electricity_t_minus_2: float = Field(ge=0, le=5000, allow_inf_nan=False)
+    electricity_t_minus_1: float = Field(ge=0, le=5000, allow_inf_nan=False)
     target_month_num: int = Field(ge=1, le=12)
 
 

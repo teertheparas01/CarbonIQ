@@ -114,7 +114,7 @@ export function About() {
             </div>
             <h3 className="text-lg font-bold text-brand-950">Scope Transparency</h3>
             <p className="text-sm text-brand-600 leading-relaxed">
-              Clear distinction between predictive models (Electricity) and benchmark references (LPG thermal, water, transport).
+              Clear distinction between predictive models (Electricity) and benchmark references.
             </p>
           </div>
           <div className="pt-4 mt-4 border-t border-brand-100/60 text-xs font-semibold text-amber-700">
@@ -305,18 +305,7 @@ export function About() {
               </p>
             </div>
 
-            <div className="p-4 rounded-xl bg-emerald-50/40 border border-emerald-200/50 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-emerald-800 uppercase tracking-wide">LPG Thermal Fuel Factor</span>
-                <Badge variant="success" size="sm">IPCC AR5</Badge>
-              </div>
-              <div className="text-2xl font-extrabold text-brand-950">
-                2.983 <span className="text-sm font-normal text-brand-600">kg CO₂ / kg LPG</span>
-              </div>
-              <p className="text-xs text-brand-600 leading-relaxed">
-                Domestic cylinders contain 14.2 kg LPG (~42.36 kg CO₂ per full cylinder). Benchmarks evaluate cooking fuel efficiency against induction alternatives.
-              </p>
-            </div>
+            
           </div>
 
           <div className="p-4 rounded-xl bg-brand-50/60 border border-brand-100/70 text-xs sm:text-sm text-brand-700 leading-relaxed space-y-2">
