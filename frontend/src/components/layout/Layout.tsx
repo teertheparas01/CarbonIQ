@@ -15,6 +15,7 @@ const PAGE_META: Record<string, { title: string; description?: string }> = {
   '/forecast': { title: 'Forecast', description: 'Next-month electricity forecast and carbon estimation' },
   '/todo-not-todo': { title: "Do's & Don'ts", description: 'Actionable recommendations for reducing emissions' },
   '/settings': { title: 'Settings', description: 'View model and emission factor configuration' },
+  '/about': { title: 'About CarbonIQ', description: 'Model architecture, technology stack, and empirical methodology' },
 };
 
 function getPageMeta(pathname: string) {

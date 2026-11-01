@@ -250,9 +250,10 @@ export function Landing() {
             <div>
               <h4 className="font-medium text-white mb-4">Standards &amp; Citations</h4>
               <nav className="space-y-2 text-sm text-brand-400">
-                <a href="#" className="hover:text-white transition-colors block">CEA Baseline Database v22.0</a>
-                <a href="#" className="hover:text-white transition-colors block">Model Architecture Card</a>
-                <a href="#" className="hover:text-white transition-colors block">GHG Protocol Scope 2</a>
+                <a href="/about" className="hover:text-white transition-colors block text-emerald-400 font-medium">About CarbonIQ &amp; Tech Stack →</a>
+                <a href="/settings" className="hover:text-white transition-colors block">CEA Baseline Database v22.0</a>
+                <a href="/about" className="hover:text-white transition-colors block">Model Architecture Card</a>
+                <a href="/about" className="hover:text-white transition-colors block">GHG Protocol Scope 2</a>
               </nav>
             </div>
           </div>

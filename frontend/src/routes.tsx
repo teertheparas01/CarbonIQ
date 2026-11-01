@@ -9,6 +9,7 @@ import {
   TodoNotTodo,
   Settings,
   Landing,
+  About,
 } from './pages';
 
 export const router = createBrowserRouter([
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       { path: 'forecast', element: <Forecast /> },
       { path: 'todo-not-todo', element: <TodoNotTodo /> },
       { path: 'settings', element: <Settings /> },
+      { path: 'about', element: <About /> },
     ],
   },
 ]);

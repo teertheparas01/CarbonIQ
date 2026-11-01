@@ -544,6 +544,13 @@ export function Dashboard() {
           >
             teertheparas@gmail.com
           </a>
+          <span className="text-brand-300">•</span>
+          <a
+            href="/about"
+            className="text-emerald-700 hover:text-emerald-900 font-semibold underline underline-offset-2 transition-colors"
+          >
+            About Project ↗
+          </a>
         </div>
       </footer>
     </motion.div>

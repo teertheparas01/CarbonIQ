@@ -8,3 +8,4 @@ export { Forecast } from './Forecast';
 export { TodoNotTodo } from './TodoNotTodo';
 export { Settings } from './Settings';
 export { Landing } from './Landing';
+export { About } from './About';
