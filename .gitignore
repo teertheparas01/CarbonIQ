@@ -17,6 +17,7 @@ htmlcov/
 *.egg-info/
 dist/
 build/
+.ipynb_checkpoints/
 
 # Node.js / Frontend
 node_modules/
