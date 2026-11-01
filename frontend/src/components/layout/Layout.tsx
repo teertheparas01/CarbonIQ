@@ -1,4 +1,5 @@
-import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
+import { useLayoutEffect } from 'react';
+import { Outlet, useOutletContext, useLocation, ScrollRestoration } from 'react-router-dom';
 import { TopNav } from './TopNav';
 import { Header } from './Header';
 import { PageContainer } from './PageContainer';
@@ -32,8 +33,20 @@ export function Layout() {
   const location = useLocation();
   const isLanding = location.pathname === '/';
 
+  useLayoutEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(location.hash.slice(1));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [location.pathname, location.hash]);
+
   return (
     <div className="min-h-screen flex flex-col relative">
+      <ScrollRestoration />
       <AnimatedGradientBackground />
       <TopNav />
       <div className={`flex-1 flex flex-col min-w-0 ${isLanding ? 'pt-0' : 'pt-24'}`}>
