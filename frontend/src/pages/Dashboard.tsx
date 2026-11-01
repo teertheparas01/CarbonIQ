@@ -4,8 +4,7 @@ import { useForecast } from '../hooks';
 import { GlassCard, GlassButton, StaggerContainer, StaggerItem, cardVariants, GlassStat } from '../lib/animations';
 import { Badge } from '../components/ui';
 import { 
-  Lightning, ArrowUpRight, Gear, CaretRight,
-  BatteryCharging
+  Lightning, ArrowUpRight, Gear, CaretRight
 } from '@phosphor-icons/react';
 
 interface KPIMetric {
@@ -63,28 +62,6 @@ const DOMAIN_CARDS: DomainCardItem[] = [
     iconColor: 'text-emerald-500',
     stat: { value: '—', unit: 'kg CO₂', label: 'Last prediction' },
   },
-  {
-    key: 'lpg',
-    label: 'LPG Thermal',
-    status: 'Forecast Live',
-    description: 'Cylinder demand & CO₂ footprint',
-    badge: 'success',
-    href: '/lpg',
-    featured: true,
-    icon: BatteryCharging,
-    iconColor: 'text-orange-500',
-  },
-  {
-    key: 'transport',
-    label: 'Transport',
-    status: 'Not Available',
-    description: 'Insufficient travel data',
-    badge: 'warning',
-    href: '/transport',
-    featured: false,
-    icon: CaretRight,
-    iconColor: 'text-slate-500',
-  },
 ] as const;
 
 const QUICK_ACTIONS: QuickAction[] = [
@@ -106,7 +83,7 @@ const QUICK_ACTIONS: QuickAction[] = [
     label: 'Model Gear',
     description: 'Emission factor & model configuration',
     icon: Gear,
-    href: '/settings',
+    href: '/about',
     variant: 'secondary',
   },
 ];
@@ -224,7 +201,7 @@ export function Dashboard() {
       label: 'Emission Factor',
       value: '0.675',
       unit: 'kg/kWh',
-      trend: { value: 'Standard', label: 'Grid Baseline', positive: true },
+      trend: { value: 'Fixed', label: 'CEA v22.0', positive: true },
       icon: Gear,
       iconColor: 'text-sky-500',
     },
@@ -245,7 +222,7 @@ export function Dashboard() {
           label: 'CO₂ Estimate',
           value: lastResult.predicted_co2_kg.toFixed(2),
           unit: 'kg',
-          trend: { value: '—', label: 'CO₂ Output', positive: true },
+          trend: { value: '—', label: 'From CEA factor', positive: true },
           icon: ArrowUpRight,
           iconColor: 'text-emerald-500',
         },
@@ -253,7 +230,7 @@ export function Dashboard() {
           label: 'Emission Factor',
           value: lastResult.emission_factor_kg_co2_per_kwh.toFixed(3),
           unit: 'kg/kWh',
-          trend: { value: 'Standard', label: 'Grid Baseline', positive: true },
+          trend: { value: 'Fixed', label: 'CEA v22.0', positive: true },
           icon: Gear,
           iconColor: 'text-sky-500',
         },
@@ -425,8 +402,8 @@ export function Dashboard() {
           <GlassCard className="p-6" elevated>
             <div className="grid gap-6 lg:grid-cols-3">
               <div className="lg:col-span-2 space-y-4">
-                <div className="flex items-center gap-3 p-4 rounded-xl glass glass--highlighted">
-                  <div className="p-3 rounded-xl glass glass--highlighted text-emerald-600">
+                <div className="flex items-center gap-3 p-4 glass glass--highlighted">
+                  <div className="p-3 rounded-xl glass glass--strong">
                     <ArrowUpRight className="w-6 h-6 text-emerald-600" />
                   </div>
                   <div>
@@ -436,8 +413,8 @@ export function Dashboard() {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-4 rounded-xl glass glass--highlighted">
-                  <div className="p-3 rounded-xl glass glass--highlighted text-amber-600">
+                <div className="flex items-center gap-3 p-4 glass glass--highlighted">
+                  <div className="p-3 rounded-xl glass glass--strong">
                     <Lightning className="w-6 h-6 text-amber-600" />
                   </div>
                   <div>
@@ -449,7 +426,7 @@ export function Dashboard() {
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="p-4 rounded-xl glass glass--highlighted">
+                <div className="p-4 glass glass--highlighted">
                   <p className="text-xs font-medium text-brand-500 uppercase tracking-wider mb-3">Details</p>
                   <dl className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -508,7 +485,7 @@ export function Dashboard() {
           >
             Get Started
           </motion.h2>
-          <GlassCard className="p-8 text-center glass--strong border-2 border-dashed border-white/40">
+          <GlassCard className="p-8 text-center glass--strong border-2 border-dashed border-brand-200">
             <div className="max-w-md mx-auto">
               <div className="mx-auto mb-4 p-4 rounded-2xl glass glass--highlighted w-fit">
                 <Lightning className="w-10 h-10 text-brand-500" />
@@ -531,28 +508,6 @@ export function Dashboard() {
           </GlassCard>
         </motion.section>
       )}
-
-      {/* Footer Attribution */}
-      <footer className="pt-12 pb-6 text-center">
-        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-5 py-2.5 rounded-full glass glass--subtle text-xs sm:text-sm text-brand-700 border border-brand-200/50 shadow-xs">
-          <span>Designed &amp; Developed by</span>
-          <span className="font-semibold text-brand-950">Paras</span>
-          <span className="text-brand-300">•</span>
-          <a
-            href="mailto:teertheparas@gmail.com"
-            className="text-brand-700 hover:text-brand-950 underline underline-offset-2 transition-colors font-medium"
-          >
-            teertheparas@gmail.com
-          </a>
-          <span className="text-brand-300">•</span>
-          <a
-            href="/about"
-            className="text-emerald-700 hover:text-emerald-900 font-semibold underline underline-offset-2 transition-colors"
-          >
-            About Project ↗
-          </a>
-        </div>
-      </footer>
     </motion.div>
   );
 }
