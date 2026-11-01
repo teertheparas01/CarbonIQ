@@ -1614,6 +1614,12 @@
     transition: var(--glass-transition-fast);
     width: 100%;
   }
+
+  .glass-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
   
   .glass-input::placeholder,
   .glass-select::placeholder {
