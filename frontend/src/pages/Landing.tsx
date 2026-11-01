@@ -91,9 +91,6 @@ export function Landing() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass glass--highlighted text-sm font-medium text-brand-700 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Platform Architecture
-              </span>
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-brand-950 mb-4">
                 Engineered for Measurement Precision
               </h2>
@@ -142,9 +139,6 @@ export function Landing() {
         <section id="how-it-works" className="glass-card p-8 md:p-12">
           <div className="max-w-7xl mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full glass glass--highlighted text-sm font-medium text-brand-700 mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Prediction Pipeline
-              </span>
               <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-brand-950 mb-4">
                 From Raw Usage to Actionable Intelligence
               </h2>

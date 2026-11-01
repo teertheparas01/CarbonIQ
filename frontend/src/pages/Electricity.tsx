@@ -387,13 +387,10 @@ export function Electricity() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 text-[11px] font-semibold mb-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
-                MSEDCL Residential Tariff Model
-              </div>
+              
               <h3 className="text-base font-semibold text-brand-950">Rooftop Solar &amp; Carbon Mitigation Simulator</h3>
             </div>
-            <Badge variant="success">Interactive Decarbonization</Badge>
+            <Badge variant="success" glass>Interactive Decarbonization</Badge>
           </div>
         </CardHeader>
         <CardContent className="pt-2 space-y-6">

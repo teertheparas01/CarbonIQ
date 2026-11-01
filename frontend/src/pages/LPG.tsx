@@ -344,10 +344,7 @@ export function LPG() {
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[11px] font-semibold mb-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-orange-600 animate-pulse" />
-                Thermal Transition Pathway
-              </div>
+              
               <h3 className="text-base font-semibold text-brand-950">LPG to Clean Induction Cooking Calculator</h3>
             </div>
             <Badge variant="warning" glass>Clean Cooking Transition</Badge>

@@ -265,11 +265,11 @@ export function Transport() {
             </div>
           </CardHeader>
           <CardContent className="pt-2">
-            <div className="h-64 w-full">
+            <div className="h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={PUNE_VEHICLE_OWNERSHIP} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                  <XAxis dataKey="type" tick={{ fontSize: 10, fill: '#5D7A6B' }} interval={0} angle={-15} textAnchor="end" height={45} />
+                  <XAxis dataKey="type" tick={{ fontSize: 10, fill: '#5D7A6B', fontFamily: 'Inter, system-ui, sans-serif' }} interval={0} angle={0} height={55} />
                   <YAxis type="number" unit="%" tick={{ fontSize: 11, fill: '#5D7A6B' }} />
                   <Tooltip
                     formatter={(value: any) => [`${value}% of households`, 'Ownership']}
