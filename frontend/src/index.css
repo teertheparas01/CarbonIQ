@@ -249,6 +249,36 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* ========================================
+     ANIMATED GRADIENT BACKGROUND KEYFRAMES
+     GPU-composited (transform-only) for 60fps
+     ======================================== */
+  @keyframes orbFloat1 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    25%      { transform: translate3d(100px, -80px, 0) scale(1.12); }
+    50%      { transform: translate3d(-60px, 50px, 0) scale(0.96); }
+    75%      { transform: translate3d(40px, -30px, 0) scale(1.06); }
+  }
+
+  @keyframes orbFloat2 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    25%      { transform: translate3d(-90px, 90px, 0) scale(1.1); }
+    50%      { transform: translate3d(60px, -50px, 0) scale(0.94); }
+    75%      { transform: translate3d(-30px, 30px, 0) scale(1.04); }
+  }
+
+  @keyframes orbFloat3 {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    25%      { transform: translate3d(70px, -60px, 0) scale(1.14); }
+    50%      { transform: translate3d(-50px, 45px, 0) scale(0.95); }
+    75%      { transform: translate3d(25px, -20px, 0) scale(1.08); }
+  }
+
+  @keyframes shimmerSweep {
+    0%   { transform: rotate(-12deg) translateX(-200%); }
+    100% { transform: rotate(-12deg) translateX(200%); }
+  }
 }
 
 @layer components {

@@ -22,12 +22,12 @@ function latLonToVector3(lat: number, lon: number, radius: number): [number, num
 }
 
 /* ------------------------------------------------------------------ */
-/*  Deep Space Starfield (Lightweight 60fps)                          */
+/*  Deep Space Starfield (Lightweight)                                */
 /* ------------------------------------------------------------------ */
 function StarField() {
   const points = useMemo(() => {
-    const coords = new Float32Array(500 * 3);
-    for (let i = 0; i < 500 * 3; i += 3) {
+    const coords = new Float32Array(300 * 3);
+    for (let i = 0; i < 300 * 3; i += 3) {
       coords[i] = (Math.random() - 0.5) * 120;
       coords[i + 1] = (Math.random() - 0.5) * 120;
       coords[i + 2] = -15 - Math.random() * 80;
@@ -52,16 +52,18 @@ function StarField() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Earth Scene with Precision Zoom to Pune (Optimized 60fps)         */
+/*  Earth Scene — Optimized for 60fps                                 */
+/*  - Reduced sphere segments (48 → 32 where possible)               */
+/*  - Single cloud layer (removed duplicate)                          */
+/*  - Throttled beacon pulse                                          */
 /* ------------------------------------------------------------------ */
 function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } }) {
   const { gl } = useThree();
   const earthGroupRef = useRef<THREE.Group>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
-  const clouds2Ref = useRef<THREE.Mesh>(null);
   const beaconRef = useRef<THREE.Mesh>(null);
 
-  // Load lean textures: sharp 4K day map + lightweight clouds
+  // Load textures
   const [dayMap, cloudsMap] = useTexture([
     '/textures/earth_day_4k.jpg',
     '/textures/earth_clouds.png',
@@ -110,9 +112,6 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
     if (cloudsRef.current) {
       cloudsRef.current.rotation.y += delta * 0.008;
     }
-    if (clouds2Ref.current) {
-      clouds2Ref.current.rotation.y += delta * 0.005; // Slower rotation for depth
-    }
 
     const targetZ = THREE.MathUtils.lerp(4.8, 3.85, easeP);
     state.camera.position.z = THREE.MathUtils.damp(state.camera.position.z, targetZ, 8, delta);
@@ -127,9 +126,9 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
 
   return (
     <group ref={earthGroupRef}>
-      {/* 4K High-Performance Earth Globe */}
+      {/* Earth Globe — 48 segments is plenty at this zoom level */}
       <mesh>
-        <sphereGeometry args={[EARTH_RADIUS, 64, 64]} />
+        <sphereGeometry args={[EARTH_RADIUS, 48, 48]} />
         <meshStandardMaterial
           map={dayMap}
           roughness={0.4}
@@ -138,9 +137,9 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
         />
       </mesh>
 
-      {/* Atmospheric Horizon Rim Glow */}
+      {/* Atmospheric Horizon Rim Glow — reduced to 32 segments */}
       <mesh scale={[1.025, 1.025, 1.025]}>
-        <sphereGeometry args={[EARTH_RADIUS, 48, 48]} />
+        <sphereGeometry args={[EARTH_RADIUS, 32, 32]} />
         <shaderMaterial
           side={THREE.BackSide}
           transparent
@@ -167,36 +166,23 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
         />
       </mesh>
 
-      {/* Cloud Layer - Increased Density */}
+      {/* Cloud Layer — high density, optimized 32 segments */}
       <mesh ref={cloudsRef} scale={[1.012, 1.012, 1.012]}>
-        <sphereGeometry args={[EARTH_RADIUS, 64, 64]} />
+        <sphereGeometry args={[EARTH_RADIUS, 32, 32]} />
         <meshStandardMaterial
           map={cloudsMap}
           transparent
-          opacity={0.7}
+          opacity={0.85}
           blending={THREE.AdditiveBlending}
           depthWrite={false}
           color="#ffffff"
         />
       </mesh>
 
-      {/* Secondary Cloud Layer for Extra Density */}
-      <mesh ref={clouds2Ref} scale={[1.018, 1.018, 1.018]}>
-        <sphereGeometry args={[EARTH_RADIUS, 48, 48]} />
-        <meshStandardMaterial
-          map={cloudsMap}
-          transparent
-          opacity={0.35}
-          blending={THREE.AdditiveBlending}
-          depthWrite={false}
-          color="#f0f4f8"
-        />
-      </mesh>
-
       {/* Pune Geographic Marker - Pulsing Green Beacon */}
       <group position={punePosition}>
         <mesh ref={beaconRef}>
-          <sphereGeometry args={[0.024, 16, 16]} />
+          <sphereGeometry args={[0.024, 12, 12]} />
           <meshBasicMaterial color="#34d399" />
         </mesh>
       </group>
@@ -206,7 +192,7 @@ function GlobeScene({ scrollProgress }: { scrollProgress: { get: () => number } 
 
 
 /* ------------------------------------------------------------------ */
-/*  Main Component - Strict Green & White Brand Theme                 */
+/*  Main Component                                                    */
 /* ------------------------------------------------------------------ */
 export function EarthAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -249,14 +235,15 @@ export function EarthAnimation() {
 
         <Canvas
           camera={{ position: [0, 0, 4.75], fov: 42, near: 0.1, far: 200 }}
-          dpr={1}
+          dpr={[1, 1.5]}
           gl={{
-            antialias: true,
+            antialias: false,
             powerPreference: 'high-performance',
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.35,
           }}
           className="w-full h-full"
+          frameloop="always"
         >
           {/* Deep Space Background matching unified brand palette */}
           <color attach="background" args={['#031516']} />
@@ -279,7 +266,7 @@ export function EarthAnimation() {
         {/* Deep atmospheric horizon transition blending into page content */}
         <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-b from-transparent via-[#031516]/60 to-[#02201d] pointer-events-none z-10" />
 
-        {/* Open, Cinematic Hero Content (No AI capsule box, solid unified typography) */}
+        {/* Open, Cinematic Hero Content */}
         <motion.div
           style={{
             opacity: endOverlayOpacity,
@@ -288,7 +275,7 @@ export function EarthAnimation() {
           className="absolute inset-x-0 bottom-10 md:bottom-16 flex flex-col items-center justify-center px-4 md:px-6 pointer-events-auto z-20 text-center"
         >
           <div className="max-w-2xl mx-auto space-y-4">
-            {/* Unified Solid Color Headline - Clean, Authoritative, No 2-tone split */}
+            {/* Unified Solid Color Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight [text-shadow:_0_2px_24px_rgba(0,0,0,0.85)]">
               Urban Household Energy as One Carbon System
             </h1>
