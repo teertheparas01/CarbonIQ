@@ -1,10 +1,10 @@
-from pathlib import Path
 import json
 import os
+from pathlib import Path
 
 import joblib
 import pandas as pd
-from fastapi import FastAPI, APIRouter
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 

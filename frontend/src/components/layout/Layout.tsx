@@ -4,6 +4,7 @@ import { TopNav } from './TopNav';
 import { Header } from './Header';
 import { PageContainer } from './PageContainer';
 import { AnimatedGradientBackground } from '../AnimatedGradientBackground';
+import { ErrorBoundary } from '../ui';
 
 const PAGE_META: Record<string, { title: string; description?: string }> = {
   '/': { title: 'Dashboard', description: 'Overview of your carbon footprint and forecasts' },
@@ -52,7 +53,9 @@ export function Layout() {
           <Outlet />
         ) : (
           <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-            <Outlet />
+            <ErrorBoundary>
+              <Outlet />
+            </ErrorBoundary>
           </main>
         )}
       </div>

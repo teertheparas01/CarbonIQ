@@ -15,7 +15,7 @@ export interface PredictResponse {
   predicted_co2_kg: number;
   emission_factor_kg_co2_per_kwh: number;
   factor_source: string;
-  factor_version: string;
+  factor_version?: string;
   reporting_period: string;
   gas: string;
   model_name: string;
