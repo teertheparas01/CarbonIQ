@@ -1,0 +1,88 @@
+import { Card, CardContent } from '../components/ui';
+import { Badge } from '../components/ui';
+
+const TODO_ITEMS = [
+  'Use the electricity forecast to plan high-consumption activities',
+  'Compare actual bills with forecasts to improve awareness',
+  'Track monthly electricity consumption consistently',
+  'Consider energy-efficient appliances for high-consumption households',
+  'Monitor seasonal patterns (higher consumption in summer/monsoon)',
+];
+
+const NOT_TODO_ITEMS = [
+  'Do not assume the forecast is exact — R² = 0.1689 indicates modest accuracy',
+  'Do not use the model for commercial or regulatory decisions',
+  'Do not apply the electricity emission factor (0.675 kg CO₂/kWh) to LPG, water, or food',
+  'Do not calculate transport CO₂ from vehicle ownership alone',
+  'Do not extrapolate forecasts beyond the next month',
+  'Do not ignore the emission factor reporting period (FY 2025-26) vs. historical data (2018–2020)',
+];
+
+export function TodoNotTodo() {
+  return (
+    <div className="space-y-6 max-w-3xl">
+      <div>
+        <h2 className="text-lg font-medium text-brand-950">Do's & Don'ts</h2>
+        <p className="mt-1 text-sm text-brand-500">
+          Actionable guidance and important limitations for using CarbonIQ responsibly.
+        </p>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Badge variant="success">Do's</Badge>
+              <h3 className="text-sm font-medium text-brand-950">Recommended Actions</h3>
+            </div>
+            <ul className="space-y-3" role="list">
+              {TODO_ITEMS.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-brand-600">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 text-xs font-medium">
+                    {i + 1}
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card className="border-red-200/50 bg-red-50/30">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Badge variant="warning">Don'ts</Badge>
+              <h3 className="text-sm font-medium text-red-800">Actions to Avoid</h3>
+            </div>
+            <ul className="space-y-3" role="list">
+              {NOT_TODO_ITEMS.map((item, i) => (
+                <li key={i} className="flex items-start gap-3 text-sm text-red-700">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-red-100 flex items-center justify-center text-red-600 text-xs font-medium">
+                    {i + 1}
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="border-brand-200/50 bg-brand-100/30">
+        <CardContent className="pt-6">
+          <h3 className="text-sm font-medium text-brand-950 mb-2">Technical Documentation</h3>
+          <p className="text-sm text-brand-600 mb-3 leading-relaxed">
+            All detailed specifications regarding model architecture, training protocols, and emission factors are centralized in our documentation.
+          </p>
+          <a
+            href="/about"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 hover:text-emerald-900 underline underline-offset-2 transition-colors"
+          >
+            <span>Explore Technical Specifications in About</span>
+            <span>↗</span>
+          </a>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
