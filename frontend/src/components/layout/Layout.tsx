@@ -9,8 +9,6 @@ const PAGE_META: Record<string, { title: string; description?: string }> = {
   '/': { title: 'Dashboard', description: 'Overview of your carbon footprint and forecasts' },
   '/electricity': { title: 'Electricity', description: 'Electricity consumption, forecasting, and CO₂ estimation' },
   '/lpg': { title: 'LPG', description: 'LPG consumption and context (CO₂ calculation not available)' },
-  '/water': { title: 'Water', description: 'Water consumption and context (CO₂ calculation not available)' },
-  '/food': { title: 'Food', description: 'Food consumption and context (CO₂ calculation not available)' },
   '/transport': { title: 'Transport', description: 'Vehicle ownership data (no CO₂ calculation — insufficient travel data)' },
   '/forecast': { title: 'Forecast', description: 'Next-month electricity forecast and carbon estimation' },
   '/todo-not-todo': { title: "Do's & Don'ts", description: 'Actionable recommendations for reducing emissions' },

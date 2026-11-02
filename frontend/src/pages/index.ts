@@ -3,8 +3,6 @@ export { Electricity } from './Electricity';
 export { Forecast } from './Forecast';
 export { LPG } from './LPG';
 export { Transport } from './Transport';
-export { Water } from './Water';
-export { Food } from './Food';
 export { TodoNotTodo } from './TodoNotTodo';
 export { Settings } from './Settings';
 export { Landing } from './Landing';
