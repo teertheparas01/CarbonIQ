@@ -7,7 +7,6 @@ import {
   LPG,
   Transport,
   TodoNotTodo,
-  Settings,
   Landing,
   About,
 } from './pages';
@@ -24,7 +23,6 @@ export const router = createBrowserRouter([
       { path: 'transport', element: <Transport /> },
       { path: 'forecast', element: <Forecast /> },
       { path: 'todo-not-todo', element: <TodoNotTodo /> },
-      { path: 'settings', element: <Settings /> },
       { path: 'about', element: <About /> },
     ],
   },

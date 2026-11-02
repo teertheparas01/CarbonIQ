@@ -4,6 +4,5 @@ export { Forecast } from './Forecast';
 export { LPG } from './LPG';
 export { Transport } from './Transport';
 export { TodoNotTodo } from './TodoNotTodo';
-export { Settings } from './Settings';
 export { Landing } from './Landing';
 export { About } from './About';
