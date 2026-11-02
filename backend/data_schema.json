@@ -1,0 +1,127 @@
+{
+  "additionalProperties": false,
+  "description": "Canonical input schema for household electricity forecasting",
+  "properties": {
+    "household_id": {
+      "description": "Unique household identifier (string to support any format)",
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Household Id",
+      "type": "string"
+    },
+    "target_month": {
+      "description": "Target month in YYYY-MM-DD format (day must be 01)",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "title": "Target Month",
+      "type": "string"
+    },
+    "electricity_t_minus_2": {
+      "description": "Electricity consumption 2 months prior to target (kWh)",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "title": "Electricity T Minus 2",
+      "type": "number"
+    },
+    "electricity_t_minus_1": {
+      "description": "Electricity consumption 1 month prior to target (kWh)",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "title": "Electricity T Minus 1",
+      "type": "number"
+    },
+    "electricity_target": {
+      "anyOf": [
+        {
+          "maximum": 10000.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Actual electricity consumption for target month (kWh) - training only",
+      "title": "Electricity Target"
+    },
+    "adults": {
+      "anyOf": [
+        {
+          "maximum": 20,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Adults"
+    },
+    "children": {
+      "anyOf": [
+        {
+          "maximum": 20,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Children"
+    },
+    "seniors": {
+      "anyOf": [
+        {
+          "maximum": 20,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Seniors"
+    },
+    "rooms": {
+      "anyOf": [
+        {
+          "maximum": 50,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Rooms"
+    },
+    "income": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Income"
+    }
+  },
+  "required": [
+    "household_id",
+    "target_month",
+    "electricity_t_minus_2",
+    "electricity_t_minus_1"
+  ],
+  "title": "CarbonIQ ElectricityRecord",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema#",
+  "version": "1.0.0"
+}
