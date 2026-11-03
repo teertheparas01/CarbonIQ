@@ -1,0 +1,76 @@
+{
+  "timestamp": "2026-11-03T15:23:45.861594Z",
+  "results": {
+    "mean": {
+      "model_name": "mean",
+      "metrics": {
+        "MAE_kWh": 93.9934,
+        "RMSE_kWh": 130.7696,
+        "R2": -0.0461,
+        "MAPE_pct": null,
+        "Bias_kWh": 27.4504
+      },
+      "training_time_sec": 0.0001,
+      "parameters": {
+        "inference_time_sec": 1.1e-05
+      },
+      "n_predictions": 1434
+    },
+    "naive_persistence": {
+      "model_name": "naive_persistence",
+      "metrics": {
+        "MAE_kWh": 35.1673,
+        "RMSE_kWh": 52.8877,
+        "R2": 0.8289,
+        "MAPE_pct": null,
+        "Bias_kWh": -29.6224
+      },
+      "training_time_sec": 0.0,
+      "parameters": {
+        "inference_time_sec": 0.000139
+      },
+      "n_predictions": 1434
+    },
+    "seasonal_naive": {
+      "model_name": "seasonal_naive",
+      "metrics": {
+        "MAE_kWh": 82.148,
+        "RMSE_kWh": 127.9426,
+        "R2": -0.0014,
+        "MAPE_pct": null,
+        "Bias_kWh": -1.6263
+      },
+      "training_time_sec": 0.002,
+      "parameters": {
+        "inference_time_sec": 0.040895
+      },
+      "n_predictions": 1434
+    },
+    "linear_trend": {
+      "model_name": "linear_trend",
+      "metrics": {
+        "MAE_kWh": 45.7331,
+        "RMSE_kWh": 63.9574,
+        "R2": 0.7498,
+        "MAPE_pct": null,
+        "Bias_kWh": -32.3979
+      },
+      "training_time_sec": 0.0,
+      "parameters": {
+        "inference_time_sec": 0.000108
+      },
+      "n_predictions": 1434
+    }
+  },
+  "metadata": {
+    "dataset": "CarbonIQ Pune Household Survey (simulated)",
+    "train_samples": 5566,
+    "test_samples": 1434,
+    "target_model": "Seasonal Gradient Boosting",
+    "target_metrics": {
+      "MAE_kWh": 32.12,
+      "RMSE_kWh": 186.39,
+      "R2": 0.169
+    }
+  }
+}
