@@ -98,16 +98,20 @@ function SettingsDropdown() {
     },
     {
       label: 'System Settings',
-      href: '/settings',
-      icon: <SettingsIcon className="w-4 h-4" strokeWidth={2} />,
+      href: '/system-settings',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+      ),
     },
     {
       label: 'Action Levers',
-      href: '/todo-not-todo',
+      href: '/action-levers',
       icon: (
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
         </svg>
       ),
     },

@@ -256,8 +256,8 @@ export function Landing() {
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-brand-400">
               <span>Designed &amp; Developed by <strong className="text-white font-medium">Paras</strong></span>
               <span className="text-brand-700">•</span>
-              <a href="mailto:teertheparas@gmail.com" className="hover:text-emerald-300 transition-colors underline underline-offset-2">
-                teertheparas@gmail.com
+              <a href="mailto:teerthenandan@gmail.com" className="hover:text-emerald-300 transition-colors underline underline-offset-2">
+                teerthenandan@gmail.com
               </a>
             </div>
           </div>

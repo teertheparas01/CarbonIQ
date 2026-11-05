@@ -336,11 +336,11 @@ export function About() {
 
         <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
           <a
-            href="mailto:teertheparas@gmail.com"
+            href="mailto:teerthenandan@gmail.com"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-brand-700 text-white hover:bg-brand-800 transition-colors shadow-sm"
           >
             <Mail className="w-4 h-4" />
-            <span>teertheparas@gmail.com</span>
+            <span>teerthenandan@gmail.com</span>
           </a>
 
           <a
