@@ -188,7 +188,7 @@ export function About() {
             <div className="space-y-3">
               <h4 className="text-sm font-semibold text-brand-950 flex items-center gap-2">
                 <Database className="w-4 h-4 text-brand-600" />
-                <span>Training &amp; Split Protocol</span>
+                <span>Training & Split Protocol</span>
               </h4>
               <div className="p-4 rounded-xl bg-white/60 border border-brand-100/70 space-y-3 text-xs sm:text-sm text-brand-700">
                 <div className="flex justify-between py-1 border-b border-brand-100/60">
@@ -235,7 +235,7 @@ export function About() {
                 <span>Frontend Layer</span>
               </div>
               <ul className="space-y-1.5 text-xs text-brand-600 leading-relaxed">
-                <li><strong className="text-brand-900">React 19 &amp; Vite</strong> — Modern component runtime with instant HMR</li>
+                <li><strong className="text-brand-900">React 19 & Vite</strong> — Modern component runtime with instant HMR</li>
                 <li><strong className="text-brand-900">TypeScript</strong> — Strict type contracts across navigation and API interfaces</li>
                 <li><strong className="text-brand-900">Tailwind CSS (v4)</strong> — Custom frosted OnePlus glass capsule theme</li>
                 <li><strong className="text-brand-900">Motion (Framer Motion v14)</strong> — GPU-composited micro-interactions and transitions</li>
@@ -248,7 +248,7 @@ export function About() {
             <div className="space-y-3 p-5 rounded-2xl bg-white/60 border border-brand-100/60">
               <div className="flex items-center gap-2 text-sm font-bold text-brand-950">
                 <Server className="w-4 h-4 text-blue-600" />
-                <span>Backend &amp; ML Engine</span>
+                <span>Backend & ML Engine</span>
               </div>
               <ul className="space-y-1.5 text-xs text-brand-600 leading-relaxed">
                 <li><strong className="text-brand-900">Python 3.12</strong> — Core programming language</li>
@@ -256,7 +256,7 @@ export function About() {
                 <li><strong className="text-brand-900">Scikit-Learn 1.6.1</strong> — Gradient Boosting regressor pipeline</li>
                 <li><strong className="text-brand-900">Joblib</strong> — Compressed serialized model artifact persistence</li>
                 <li><strong className="text-brand-900">Uvicorn</strong> — Lightning-fast ASGI production web server</li>
-                <li><strong className="text-brand-900">NumPy &amp; Pandas</strong> — Feature shaping and data cleansing</li>
+                <li><strong className="text-brand-900">NumPy & Pandas</strong> — Feature shaping and data cleansing</li>
               </ul>
             </div>
 
@@ -264,7 +264,7 @@ export function About() {
             <div className="space-y-3 p-5 rounded-2xl bg-white/60 border border-brand-100/60">
               <div className="flex items-center gap-2 text-sm font-bold text-brand-950">
                 <ShieldCheck className="w-4 h-4 text-amber-600" />
-                <span>Infrastructure &amp; CI/CD</span>
+                <span>Infrastructure & CI/CD</span>
               </div>
               <ul className="space-y-1.5 text-xs text-brand-600 leading-relaxed">
                 <li><strong className="text-brand-900">Vercel</strong> — Production edge CDN hosting and automated git webhook deployments</li>
@@ -285,7 +285,7 @@ export function About() {
               <Zap className="w-5 h-5 text-amber-600" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-brand-950">Carbon Emission Factors &amp; Methodology</h2>
+              <h2 className="text-lg font-bold text-brand-950">Carbon Emission Factors & Methodology</h2>
               <p className="text-xs text-brand-500">Government baseline data and IPCC thermal conversion principles</p>
             </div>
           </div>
@@ -327,9 +327,9 @@ export function About() {
         <div className="space-y-2 text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-2">
             <Sparkles className="w-4 h-4 text-emerald-600" />
-            <span className="text-xs font-semibold uppercase tracking-wider text-brand-500">Author &amp; Maintainer</span>
+            <span className="text-xs font-semibold uppercase tracking-wider text-brand-500">Author & Maintainer</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-brand-950">Designed &amp; Developed by Paras</h3>
+          <h3 className="text-xl sm:text-2xl font-bold text-brand-950">Designed & Developed by Paras Tirthe</h3>
           <p className="text-xs sm:text-sm text-brand-600 max-w-lg">
             </p>
         </div>
