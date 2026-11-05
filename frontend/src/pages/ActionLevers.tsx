@@ -1,36 +1,18 @@
 'use client';
 
 import { motion, useReducedMotion } from "motion/react";
-import { Card, CardContent, CardHeader } from "../components/ui";
-import { Badge } from "../components/ui";
+import { Card } from "../components/ui";
 import { GlassButton } from "../lib/animations";
 import {
   Zap,
-  Leaf,
-  Home,
-  Car,
-  Factory,
-  TreePine,
   Sun,
-  Wind,
+  Car,
+  Flame,
+  Lightbulb,
+  Settings,
+  Droplets,
   Battery,
   Shield,
-  TrendingUp,
-  Target,
-  Zap as ZapIcon,
-  Settings,
-  Calculator,
-  Lightbulb,
-  Leaf as LeafIcon,
-  Droplets,
-  Flame,
-  Car as CarIcon,
-  Building2,
-  Tree,
-  Sun as SunIcon2,
-  Wind as WindIcon2,
-  Battery as BatteryIcon2,
-  Shield as ShieldIcon2,
   Search,
 } from "lucide-react";
 
@@ -184,9 +166,11 @@ function getDifficultyColor(difficulty: string) {
   }
 }
 
+type FilterType = "all" | "high" | "medium" | "low";
+
 export function ActionLevers() {
   const reduce = useReducedMotion();
-  const [filter, setFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [filter, setFilter] = useState<FilterType>("all");
   const [search, setSearch] = useState("");
 
   const filteredLevers = levers.filter((lever) => {
@@ -201,14 +185,14 @@ export function ActionLevers() {
   return (
     <motion.div
       className="space-y-8 max-w-5xl mx-auto pb-16"
-      initial={false}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
       {/* Page Header */}
       <motion.header
         className="page-header"
-        initial={{ opacity: 0, y: -12 }}
+        initial={reduce ? false : { opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
@@ -240,7 +224,7 @@ export function ActionLevers() {
               {["all", "high", "medium", "low"].map((f) => (
                 <button
                   key={f}
-                  onClick={() => setFilter(f)}
+                  onClick={() => setFilter(f as FilterType)}
                   className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
                     filter === f
                       ? "bg-brand-700 text-white shadow-sm"
@@ -258,7 +242,7 @@ export function ActionLevers() {
       {/* Stats Bar */}
       <motion.div
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-8"
-        initial={{ opacity: 0, y: 20 }}
+        initial={reduce ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
       >
@@ -296,7 +280,7 @@ export function ActionLevers() {
           <motion.article
             key={lever.id}
             className="group"
-            initial={{ opacity: 0, y: 20 }}
+            initial={reduce ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 + index * 0.05, duration: 0.4 }}
             whileHover={{ y: -4, transition: { duration: 0.2 } }}
@@ -372,7 +356,7 @@ export function ActionLevers() {
       {filteredLevers.length === 0 && (
         <motion.div
           className="text-center py-16"
-          initial={{ opacity: 0, y: 20 }}
+          initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <div className="mx-auto mb-4 p-3 rounded-xl glass glass--highlighted w-fit">
