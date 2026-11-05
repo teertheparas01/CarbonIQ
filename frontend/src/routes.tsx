@@ -9,6 +9,8 @@ import {
   TodoNotTodo,
   Landing,
   About,
+  SystemSettings,
+  ActionLevers,
 } from './pages';
 
 export const router = createBrowserRouter([
@@ -23,6 +25,8 @@ export const router = createBrowserRouter([
       { path: 'transport', element: <Transport /> },
       { path: 'forecast', element: <Forecast /> },
       { path: 'todo-not-todo', element: <TodoNotTodo /> },
+      { path: 'system-settings', element: <SystemSettings /> },
+      { path: 'action-levers', element: <ActionLevers /> },
       { path: 'about', element: <About /> },
     ],
   },
