@@ -1,5 +1,7 @@
 # CarbonIQ
 
+[![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/teertheparas01/badge.svg)](https://hub.xerj.org/contributors/teertheparas01)
+
 Household energy and carbon monitoring, prediction, and reduction application. College AIML project.
 
 ## What It Does
